@@ -45,7 +45,7 @@
                   <%= link_to edit_admin_vessel_path(vessel), class: "btn btn-outline-secondary" do %>
                     <i class="fas fa-edit"></i>
                   <% end %>
-                  <%= button_to admin_vessel_path(vessel), method: :delete, class: "btn btn-outline-danger", data: { turbo_confirm: "Are you sure you want to delete this vessel?" } do %>
+                  <%= link_to admin_vessel_path(vessel), class: "btn btn-outline-danger", data: { turbo_method: :delete, turbo_confirm: "Are you sure you want to delete this vessel?" } do %>
                     <i class="fas fa-trash"></i>
                   <% end %>
                 </div>

@@ -1,9 +1,9 @@
 <% content_for :header_actions do %>
   <% if @certificate.status.in?(%w[pending processing]) %>
-    <%= button_to verify_admin_certificate_path(@certificate), method: :post, class: "btn btn-success" do %>
+    <%= link_to verify_admin_certificate_path(@certificate), class: "btn btn-success", data: { turbo_method: :post } do %>
       <i class="fas fa-check me-1"></i> Verify
     <% end %>
-    <%= button_to reject_admin_certificate_path(@certificate), method: :post, class: "btn btn-danger", data: { turbo_confirm: "Are you sure?" } do %>
+    <%= link_to reject_admin_certificate_path(@certificate), class: "btn btn-danger", data: { turbo_method: :post, turbo_confirm: "Are you sure?" } do %>
       <i class="fas fa-times me-1"></i> Reject
     <% end %>
   <% end %>

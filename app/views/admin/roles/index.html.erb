@@ -31,7 +31,7 @@
                     <i class="fas fa-edit"></i>
                   <% end %>
                   <% if role.crew_members.empty? %>
-                    <%= button_to admin_role_path(role), method: :delete, class: "btn btn-outline-danger", data: { turbo_confirm: "Are you sure?" } do %>
+                    <%= link_to admin_role_path(role), class: "btn btn-outline-danger", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } do %>
                       <i class="fas fa-trash"></i>
                     <% end %>
                   <% end %>
