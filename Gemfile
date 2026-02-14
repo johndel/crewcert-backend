@@ -134,7 +134,7 @@ group :development do
   gem "letter_opener", "~> 1.10.0"
 
   # Model annotation
-  gem "annotaterb", "~> 4.20.0"
+  gem "annotaterb", "~> 4.22.0"
 
   gem "bullet", "~> 8.1.0"
 end
