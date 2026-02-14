@@ -96,7 +96,7 @@ GEM
     aws-sdk-kms (1.121.0)
       aws-sdk-core (~> 3, >= 3.241.4)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.212.0)
+    aws-sdk-s3 (1.213.0)
       aws-sdk-core (~> 3, >= 3.241.4)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -560,7 +560,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-import (~> 2.2.0)
   annotaterb (~> 4.20.0)
-  aws-sdk-s3 (~> 1.212.0)
+  aws-sdk-s3 (~> 1.213.0)
   babosa (~> 2.0.0)
   bootsnap (~> 1.21.1)
   brakeman (~> 8)
