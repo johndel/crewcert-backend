@@ -61,7 +61,7 @@ RSpec.describe 'Admin::Vessels', type: :request do
 
       it 'displays crew members' do
         get admin_vessel_path(vessel)
-        expect(response.body).to include(crew_member.full_name)
+        expect(response.body).to include(CGI.escapeHTML(crew_member.full_name))
       end
     end
 
