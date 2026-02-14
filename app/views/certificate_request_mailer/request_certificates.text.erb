@@ -1,0 +1,24 @@
+Hello <%= @crew_member.first_name %>,
+
+You are requested to upload your certificates for the vessel <%= @vessel.name %> in your role as <%= @role.name %>.
+
+<% if @required_certificates.any? %>
+Required Certificates:
+<% @required_certificates.each do |cert_name| %>
+- <%= cert_name %>
+<% end %>
+<% end %>
+
+Please visit the following link to upload your certificates:
+
+<%= @upload_url %>
+
+This link will expire on <%= @certificate_request.expires_at.strftime("%B %d, %Y") %>.
+
+If you have any questions, please contact your fleet administrator.
+
+Best regards,
+The CrewCert Team
+
+---
+This is an automated message from CrewCert. Please do not reply to this email.
