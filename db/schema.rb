@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_14_145459) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_14_175601) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,6 +24,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_14_145459) do
     t.string "token", null: false
     t.datetime "updated_at", null: false
     t.index ["crew_member_id"], name: "index_certificate_requests_on_crew_member_id"
+    t.index ["expires_at"], name: "index_certificate_requests_on_expires_at"
     t.index ["status"], name: "index_certificate_requests_on_status"
     t.index ["token"], name: "index_certificate_requests_on_token", unique: true
   end
@@ -39,21 +40,26 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_14_145459) do
   end
 
   create_table "certificates", force: :cascade do |t|
+    t.string "certificate_number"
     t.bigint "certificate_type_id", null: false
     t.datetime "created_at", null: false
     t.bigint "crew_member_id", null: false
     t.date "expiry_date"
     t.jsonb "extracted_data", default: {}
     t.date "issue_date"
+    t.text "rejection_reason"
     t.string "status", default: "pending", null: false
     t.datetime "updated_at", null: false
     t.datetime "verified_at"
     t.bigint "verified_by_id"
     t.index ["certificate_type_id"], name: "index_certificates_on_certificate_type_id"
+    t.index ["created_at"], name: "index_certificates_on_created_at"
     t.index ["crew_member_id", "certificate_type_id"], name: "index_certificates_on_crew_member_id_and_certificate_type_id"
     t.index ["crew_member_id"], name: "index_certificates_on_crew_member_id"
     t.index ["expiry_date"], name: "index_certificates_on_expiry_date"
+    t.index ["status", "expiry_date"], name: "index_certificates_on_status_and_expiry"
     t.index ["status"], name: "index_certificates_on_status"
+    t.index ["verified_at"], name: "index_certificates_on_verified_at"
     t.index ["verified_by_id"], name: "index_certificates_on_verified_by_id"
   end
 
@@ -66,6 +72,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_14_145459) do
     t.bigint "role_id", null: false
     t.datetime "updated_at", null: false
     t.bigint "vessel_id", null: false
+    t.index "lower((email)::text)", name: "index_crew_members_on_lower_email", unique: true
     t.index ["email"], name: "index_crew_members_on_email"
     t.index ["role_id"], name: "index_crew_members_on_role_id"
     t.index ["vessel_id", "role_id"], name: "index_crew_members_on_vessel_id_and_role_id"
@@ -173,6 +180,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_14_145459) do
     t.index ["certificate_type_id"], name: "index_matrix_requirements_on_certificate_type_id"
     t.index ["role_id"], name: "index_matrix_requirements_on_role_id"
     t.index ["vessel_id", "role_id", "certificate_type_id"], name: "idx_matrix_requirements_unique", unique: true
+    t.index ["vessel_id", "role_id", "certificate_type_id"], name: "index_matrix_requirements_composite", unique: true
+    t.index ["vessel_id", "role_id"], name: "index_matrix_requirements_vessel_role"
     t.index ["vessel_id"], name: "index_matrix_requirements_on_vessel_id"
   end
 
@@ -221,6 +230,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_14_145459) do
     t.string "management_company"
     t.string "name", null: false
     t.datetime "updated_at", null: false
+    t.index "lower((name)::text)", name: "index_vessels_on_lower_name"
     t.index ["imo"], name: "index_vessels_on_imo", unique: true, where: "(imo IS NOT NULL)"
   end
 
