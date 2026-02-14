@@ -33,7 +33,7 @@ module SuperAdmins
       return redirect_to new_super_admin_magic_link_path, alert: "Invalid or expired link" if token.blank?
 
       super_admin = SuperAdmin.find_by_token_for(:magic_link, token)
-      if super_admin.present? && super_admin.id.to_s == params[:id]
+      if super_admin.present?
         super_admin.ensure_password!
         super_admin.remember_me = true
         sign_in(super_admin)

@@ -12,22 +12,16 @@ Rails.application.routes.draw do
 
   # Super Admin namespace
   scope path: "super_admin", as: "super_admin", module: "super_admins" do
-    resources :magic_links, only: [:new, :create] do
-      member do
-        get :verify
-      end
-    end
+    resources :magic_links, only: [:new, :create]
+    get "magic_links/verify/:token", to: "magic_links#verify", as: :verify_magic_link
     get "admins", to: "admins#index", as: :admins
     root "home#index"
   end
 
   # Admin namespace (regular users)
   scope path: "admin", as: "admin", module: "admin" do
-    resources :magic_links, only: [:new, :create] do
-      member do
-        get :verify
-      end
-    end
+    resources :magic_links, only: [:new, :create]
+    get "magic_links/verify/:token", to: "magic_links#verify", as: :verify_magic_link
 
     resources :vessels do
       member do

@@ -3,7 +3,7 @@ class SuperAdminMailer < ApplicationMailer
 
   def magic_link_email(super_admin, token)
     @super_admin = super_admin
-    @magic_link_url = verify_super_admin_magic_link_url(super_admin.id, token: token)
+    @magic_link_url = super_admin_verify_magic_link_url(token: token)
 
     mail(
       to: @super_admin.email,
