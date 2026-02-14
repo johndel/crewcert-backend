@@ -1,6 +1,7 @@
 <%= form_with url: upload_certificate_path(token: certificate_request.token),
              method: :post,
-             local: false,
+             multipart: true,
+             data: { turbo: false },
              class: "certificate-upload-form" do |f| %>
   <%= hidden_field_tag :certificate_type_id, certificate_type.id %>
 
