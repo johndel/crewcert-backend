@@ -2,7 +2,7 @@
 service: crewcert
 
 # Name of the container image.
-image: xeri/crewcert
+image: johndel/crewcert
 
 # Deploy to these servers.
 servers:
@@ -17,8 +17,9 @@ proxy:
   ssl: false
   host: crewcert.xeri.eu
 
-# Where you keep your container images (Docker Hub).
+# Where you keep your container images (GitHub Container Registry).
 registry:
+  server: ghcr.io
   username:
     - KAMAL_REGISTRY_USERNAME
   password:
