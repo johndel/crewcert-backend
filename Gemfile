@@ -32,7 +32,7 @@ gem "good_job", "~> 4.13.1"
 gem "redis", "~> 5.4.0"
 
 # Google Gemini AI for document OCR
-gem "gemini-ai", "~> 4.2.0"
+gem "gemini-ai", "~> 4.3.0"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", "~> 1.21.1", require: false
