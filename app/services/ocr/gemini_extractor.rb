@@ -29,7 +29,9 @@ module Ocr
     PROMPT
 
     def initialize(api_key: nil)
-      @api_key = api_key || Rails.application.credentials.dig(:google, :gemini_api_key)
+      @api_key = api_key ||
+                 Rails.application.credentials.gemini_api_key ||
+                 Rails.application.credentials.dig(:google, :gemini_api_key)
       raise ArgumentError, "Gemini API key is required" if @api_key.blank?
     end
 
