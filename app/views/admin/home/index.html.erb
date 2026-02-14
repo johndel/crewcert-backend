@@ -1,73 +1,233 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12">
-      <h1 class="mb-4">Dashboard</h1>
+<% content_for :page_title, "Dashboard" %>
 
-      <div class="row g-4">
-        <div class="col-md-3">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <h6 class="text-muted mb-1">Vessels</h6>
-                  <h3 class="mb-0">0</h3>
-                </div>
-                <div class="bg-primary bg-opacity-10 rounded-circle p-3">
-                  <i class="fas fa-ship text-primary fa-lg"></i>
-                </div>
-              </div>
-            </div>
+<div class="row g-4 mb-4">
+  <%= link_to admin_vessels_path, class: "col-md-3 text-decoration-none" do %>
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="text-muted mb-1">Vessels</h6>
+            <h3 class="mb-0 text-dark"><%= @stats[:vessels] %></h3>
           </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <h6 class="text-muted mb-1">Crew Members</h6>
-                  <h3 class="mb-0">0</h3>
-                </div>
-                <div class="bg-success bg-opacity-10 rounded-circle p-3">
-                  <i class="fas fa-users text-success fa-lg"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <h6 class="text-muted mb-1">Pending Reviews</h6>
-                  <h3 class="mb-0">0</h3>
-                </div>
-                <div class="bg-warning bg-opacity-10 rounded-circle p-3">
-                  <i class="fas fa-clock text-warning fa-lg"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <h6 class="text-muted mb-1">Expiring Soon</h6>
-                  <h3 class="mb-0">0</h3>
-                </div>
-                <div class="bg-danger bg-opacity-10 rounded-circle p-3">
-                  <i class="fas fa-exclamation-triangle text-danger fa-lg"></i>
-                </div>
-              </div>
-            </div>
+          <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+            <i class="fas fa-ship text-primary fa-lg"></i>
           </div>
         </div>
       </div>
+    </div>
+  <% end %>
+
+  <%= link_to admin_crew_members_path, class: "col-md-3 text-decoration-none" do %>
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="text-muted mb-1">Crew Members</h6>
+            <h3 class="mb-0 text-dark"><%= @stats[:crew_members] %></h3>
+          </div>
+          <div class="bg-success bg-opacity-10 rounded-circle p-3">
+            <i class="fas fa-users text-success fa-lg"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%= link_to admin_certificates_path(filter: 'pending'), class: "col-md-3 text-decoration-none" do %>
+    <div class="card h-100 border-0 shadow-sm <%= @stats[:pending_reviews] > 0 ? 'border-warning border-2' : '' %>">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="text-muted mb-1">Pending Reviews</h6>
+            <h3 class="mb-0 <%= @stats[:pending_reviews] > 0 ? 'text-warning' : 'text-dark' %>"><%= @stats[:pending_reviews] %></h3>
+          </div>
+          <div class="bg-warning bg-opacity-10 rounded-circle p-3">
+            <i class="fas fa-clock text-warning fa-lg"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%= link_to admin_certificates_path(filter: 'expiring'), class: "col-md-3 text-decoration-none" do %>
+    <div class="card h-100 border-0 shadow-sm <%= @stats[:expiring_soon] > 0 ? 'border-danger border-2' : '' %>">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="text-muted mb-1">Expiring Soon</h6>
+            <h3 class="mb-0 <%= @stats[:expiring_soon] > 0 ? 'text-danger' : 'text-dark' %>"><%= @stats[:expiring_soon] %></h3>
+          </div>
+          <div class="bg-danger bg-opacity-10 rounded-circle p-3">
+            <i class="fas fa-exclamation-triangle text-danger fa-lg"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @stats[:expired] > 0 %>
+  <div class="alert alert-danger d-flex align-items-center mb-4" role="alert">
+    <i class="fas fa-exclamation-circle me-2"></i>
+    <div>
+      <strong><%= @stats[:expired] %> certificate(s) have expired.</strong>
+      <%= link_to "View expired certificates", admin_certificates_path(filter: 'expired'), class: "alert-link" %>
+    </div>
+  </div>
+<% end %>
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center bg-transparent">
+        <h5 class="card-title mb-0">Recent Certificates</h5>
+        <%= link_to "View All", admin_certificates_path, class: "btn btn-outline-primary btn-sm" %>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Crew Member</th>
+                <th>Certificate</th>
+                <th>Status</th>
+                <th>Submitted</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @recent_certificates.each do |cert| %>
+                <tr>
+                  <td>
+                    <%= link_to cert.crew_member.full_name, admin_crew_member_path(cert.crew_member), class: "text-decoration-none fw-medium" %>
+                    <br><small class="text-muted"><%= cert.crew_member.vessel.name %></small>
+                  </td>
+                  <td>
+                    <span class="badge bg-secondary"><%= cert.certificate_type.code %></span>
+                    <br><small><%= truncate(cert.certificate_type.name, length: 30) %></small>
+                  </td>
+                  <td><span class="badge <%= cert.status_badge_class %>"><%= cert.status.titleize %></span></td>
+                  <td>
+                    <%= time_ago_in_words(cert.created_at) %> ago
+                    <% if cert.document.attached? %>
+                      <br><small class="text-muted"><i class="fas fa-paperclip"></i> Document attached</small>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+              <% if @recent_certificates.empty? %>
+                <tr>
+                  <td colspan="4" class="text-center text-muted py-4">No certificates yet.</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <% if @expiring_certificates.any? %>
+      <div class="card border-0 shadow-sm border-warning border-2">
+        <div class="card-header bg-warning bg-opacity-10">
+          <h5 class="card-title mb-0 text-warning">
+            <i class="fas fa-clock me-2"></i>Certificates Expiring Soon
+          </h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Crew Member</th>
+                  <th>Certificate</th>
+                  <th>Expiry Date</th>
+                  <th>Days Left</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @expiring_certificates.each do |cert| %>
+                  <tr>
+                    <td><%= link_to cert.crew_member.full_name, admin_crew_member_path(cert.crew_member), class: "text-decoration-none" %></td>
+                    <td><%= cert.certificate_type.code %></td>
+                    <td><%= cert.expiry_date.strftime("%b %d, %Y") %></td>
+                    <td>
+                      <% days = cert.days_until_expiry %>
+                      <span class="badge <%= days <= 7 ? 'bg-danger' : 'bg-warning' %>">
+                        <%= days %> days
+                      </span>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-header bg-transparent">
+        <h5 class="card-title mb-0">Quick Actions</h5>
+      </div>
+      <div class="card-body">
+        <div class="d-grid gap-2">
+          <%= link_to new_admin_vessel_path, class: "btn btn-outline-primary d-flex align-items-center gap-2" do %>
+            <i class="fas fa-ship"></i> Add New Vessel
+          <% end %>
+          <%= link_to new_admin_crew_member_path, class: "btn btn-outline-primary d-flex align-items-center gap-2" do %>
+            <i class="fas fa-user-plus"></i> Add Crew Member
+          <% end %>
+          <%= link_to admin_certificates_path(filter: 'pending'), class: "btn btn-outline-warning d-flex align-items-center gap-2" do %>
+            <i class="fas fa-inbox"></i> Review Certificates (<%= @stats[:pending_reviews] %>)
+          <% end %>
+          <%= link_to admin_matrix_index_path, class: "btn btn-outline-secondary d-flex align-items-center gap-2" do %>
+            <i class="fas fa-table"></i> Training Matrix
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <% if @vessels_needing_attention.any? %>
+      <div class="card border-0 shadow-sm mb-4 border-danger border-2">
+        <div class="card-header bg-danger bg-opacity-10">
+          <h5 class="card-title mb-0 text-danger">
+            <i class="fas fa-exclamation-circle me-2"></i>Vessels Needing Attention
+          </h5>
+        </div>
+        <ul class="list-group list-group-flush">
+          <% @vessels_needing_attention.each do |vessel| %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <%= link_to vessel.name, readiness_admin_vessel_path(vessel), class: "text-decoration-none" %>
+              <span class="badge bg-danger rounded-pill">Non-compliant</span>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-transparent">
+        <h5 class="card-title mb-0">System Overview</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Certificate Types
+          <span class="badge bg-secondary rounded-pill"><%= @stats[:certificate_types] %></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Roles Defined
+          <span class="badge bg-secondary rounded-pill"><%= @stats[:roles] %></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Verified Today
+          <span class="badge bg-success rounded-pill"><%= @stats[:verified_today] %></span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          Expired Certificates
+          <span class="badge <%= @stats[:expired] > 0 ? 'bg-danger' : 'bg-secondary' %> rounded-pill"><%= @stats[:expired] %></span>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

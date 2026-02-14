@@ -24,12 +24,19 @@
 
         <p class="text-muted small mb-2 px-3">FLEET</p>
 
-        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "vessels"}" do %>
+        <%= link_to admin_vessels_path, class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "vessels" && action_name != "readiness"}" do %>
           <i class="fa-solid fa-ship fs-5"></i>
           <span class="fw-medium">Vessels</span>
         <% end %>
 
-        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "crew_members"}" do %>
+        <% if Vessel.any? %>
+          <%= link_to readiness_admin_vessel_path(Vessel.first), class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if action_name == "readiness"}" do %>
+            <i class="fa-solid fa-clipboard-check fs-5"></i>
+            <span class="fw-medium">Readiness</span>
+          <% end %>
+        <% end %>
+
+        <%= link_to admin_crew_members_path, class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "crew_members"}" do %>
           <i class="fa-solid fa-users fs-5"></i>
           <span class="fw-medium">Crew Members</span>
         <% end %>
@@ -38,18 +45,18 @@
 
         <p class="text-muted small mb-2 px-3">CERTIFICATES</p>
 
-        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "certificate_types"}" do %>
+        <%= link_to admin_certificate_types_path, class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "certificate_types"}" do %>
           <i class="fa-solid fa-certificate fs-5"></i>
           <span class="fw-medium">Certificate Types</span>
         <% end %>
 
-        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "roles"}" do %>
+        <%= link_to admin_roles_path, class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "roles"}" do %>
           <i class="fa-solid fa-user-tag fs-5"></i>
           <span class="fw-medium">Roles</span>
         <% end %>
 
-        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "matrix"}" do %>
-          <i class="fa-solid fa-table-cells fs-5"></i>
+        <%= link_to admin_matrix_index_path, class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "matrix"}" do %>
+          <i class="fa-solid fa-table fs-5"></i>
           <span class="fw-medium">Training Matrix</span>
         <% end %>
 
@@ -57,14 +64,9 @@
 
         <p class="text-muted small mb-2 px-3">REVIEW</p>
 
-        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "certificate_requests"}" do %>
+        <%= link_to admin_certificates_path, class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "certificates"}" do %>
           <i class="fa-solid fa-inbox fs-5"></i>
           <span class="fw-medium">Review Queue</span>
-        <% end %>
-
-        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "readiness"}" do %>
-          <i class="fa-solid fa-clipboard-check fs-5"></i>
-          <span class="fw-medium">Vessel Readiness</span>
         <% end %>
       </div>
     </nav>
