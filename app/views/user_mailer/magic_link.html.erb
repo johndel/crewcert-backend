@@ -1,0 +1,11 @@
+<h1>Sign in to CrewCert</h1>
+
+<p>Hi <%= @user.first_name %>,</p>
+
+<p>Click the link below to sign in to CrewCert:</p>
+
+<p><%= link_to "Sign In", @magic_link_url %></p>
+
+<p>This link will expire in 1 hour.</p>
+
+<p>If you didn't request this link, you can safely ignore this email.</p>

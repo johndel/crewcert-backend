@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CrewCert Admin</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body>
+    <div class="vh-100 bg-light d-flex flex-column align-items-center justify-content-center">
+      <div class="card shadow py-2 px-4" style="width: 100%; max-width: 28rem;">
+        <div class="card-body">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,88 @@
+<div class="position-fixed vh-100 bg-white offcanvas-xl offcanvas-start max-w-sidebar w-sidebar sidebar-container" tabindex="-1" id="offcanvasSidebar">
+  <div class="pb-4 overflow-y-auto d-flex flex-column h-100 scrollbar-hide">
+    <div class="offcanvas-header d-xl-none h-header">
+      <%= link_to admin_root_path, class: "text-decoration-none d-flex align-items-center gap-3" do %>
+        <span class="fw-semibold text-dark">CrewCert</span>
+      <% end %>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar"></button>
+    </div>
+
+    <div class="border-light d-none d-xl-block h-header">
+      <%= link_to admin_root_path, class: "text-center d-flex justify-content-center align-items-center h-100 text-decoration-none" do %>
+        <span class="fw-semibold text-dark">CrewCert</span>
+      <% end %>
+    </div>
+
+    <nav class="flex-fill p-3">
+      <div class="d-flex flex-column gap-2">
+        <%= link_to admin_root_path, class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "home"}" do %>
+          <i class="fa-solid fa-home fs-5"></i>
+          <span class="fw-medium">Dashboard</span>
+        <% end %>
+
+        <hr class="my-2">
+
+        <p class="text-muted small mb-2 px-3">FLEET</p>
+
+        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "vessels"}" do %>
+          <i class="fa-solid fa-ship fs-5"></i>
+          <span class="fw-medium">Vessels</span>
+        <% end %>
+
+        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "crew_members"}" do %>
+          <i class="fa-solid fa-users fs-5"></i>
+          <span class="fw-medium">Crew Members</span>
+        <% end %>
+
+        <hr class="my-2">
+
+        <p class="text-muted small mb-2 px-3">CERTIFICATES</p>
+
+        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "certificate_types"}" do %>
+          <i class="fa-solid fa-certificate fs-5"></i>
+          <span class="fw-medium">Certificate Types</span>
+        <% end %>
+
+        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "roles"}" do %>
+          <i class="fa-solid fa-user-tag fs-5"></i>
+          <span class="fw-medium">Roles</span>
+        <% end %>
+
+        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "matrix"}" do %>
+          <i class="fa-solid fa-table-cells fs-5"></i>
+          <span class="fw-medium">Training Matrix</span>
+        <% end %>
+
+        <hr class="my-2">
+
+        <p class="text-muted small mb-2 px-3">REVIEW</p>
+
+        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "certificate_requests"}" do %>
+          <i class="fa-solid fa-inbox fs-5"></i>
+          <span class="fw-medium">Review Queue</span>
+        <% end %>
+
+        <%= link_to "#", class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "readiness"}" do %>
+          <i class="fa-solid fa-clipboard-check fs-5"></i>
+          <span class="fw-medium">Vessel Readiness</span>
+        <% end %>
+      </div>
+    </nav>
+
+    <div class="mt-auto p-3 border-top">
+      <div class="d-flex align-items-center gap-3 p-3 rounded-3 bg-light mb-3">
+        <div class="flex-fill text-truncate">
+          <div class="fw-medium text-dark small text-truncate"><%= current_user&.full_name %></div>
+          <div class="text-muted" style="font-size: 0.75rem;"><%= current_user&.email %></div>
+        </div>
+      </div>
+
+      <%= button_to destroy_user_session_path, method: :delete,
+                    class: "btn btn-outline-danger btn-sm w-100 d-flex align-items-center justify-content-center gap-2 text-center",
+                    data: { turbo_confirm: "Are you sure you want to sign out?" } do %>
+        <i class="fa-solid fa-sign-out-alt"></i>
+        <span>Sign Out</span>
+      <% end %>
+    </div>
+  </div>
+</div>
