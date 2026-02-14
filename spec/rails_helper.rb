@@ -24,7 +24,7 @@ require 'shoulda/matchers'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
+Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
 
 # Ensures that the test database schema matches the current schema file.
 # If there are pending migrations it will invoke `db:test:prepare` to
@@ -37,8 +37,8 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 RSpec.configure do |config|
   # Use test adapter for ActiveJob
-  config.include ActiveJob::TestHelper, type: :job
-  config.before(:each, type: :job) do
+  config.include ActiveJob::TestHelper
+  config.before(:each) do
     ActiveJob::Base.queue_adapter = :test
   end
 
@@ -79,6 +79,9 @@ RSpec.configure do |config|
 
   # Include FactoryBot methods
   config.include FactoryBot::Syntax::Methods
+
+  # Include time helpers
+  config.include ActiveSupport::Testing::TimeHelpers
 end
 
 Shoulda::Matchers.configure do |config|

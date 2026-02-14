@@ -1,4 +1,13 @@
 class Role < ApplicationRecord
+  # Ransack configuration
+  def self.ransackable_attributes(auth_object = nil)
+    %w[name position created_at updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[crew_members]
+  end
+
   has_many :crew_members, dependent: :restrict_with_error
   has_many :matrix_requirements, dependent: :destroy
   has_many :vessels, -> { distinct }, through: :crew_members
@@ -30,7 +39,7 @@ class Role < ApplicationRecord
   private
 
   def set_position
-    return if position.present?
+    return if position.present? && position > 0
 
     # Use database-level locking to prevent race conditions
     self.position = self.class.connection.select_value(

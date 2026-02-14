@@ -1,4 +1,13 @@
 class CertificateType < ApplicationRecord
+  # Ransack configuration
+  def self.ransackable_attributes(auth_object = nil)
+    %w[code name validity_period_months created_at updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[certificates]
+  end
+
   has_many :certificates, dependent: :restrict_with_error
   has_many :matrix_requirements, dependent: :destroy
   has_many :roles, -> { distinct }, through: :matrix_requirements

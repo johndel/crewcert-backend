@@ -1,4 +1,13 @@
 class CrewMember < ApplicationRecord
+  # Ransack configuration
+  def self.ransackable_attributes(auth_object = nil)
+    %w[first_name last_name email phone created_at updated_at vessel_id role_id]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[vessel role certificates]
+  end
+
   belongs_to :vessel
   belongs_to :role
   has_many :certificates, dependent: :destroy

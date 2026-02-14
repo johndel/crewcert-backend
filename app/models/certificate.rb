@@ -1,5 +1,14 @@
 class Certificate < ApplicationRecord
   STATUSES = %w[pending processing verified rejected].freeze
+
+  # Ransack configuration
+  def self.ransackable_attributes(auth_object = nil)
+    %w[status certificate_number issue_date expiry_date verified_at created_at updated_at crew_member_id certificate_type_id]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[crew_member certificate_type verified_by]
+  end
   ALLOWED_DOCUMENT_TYPES = %w[application/pdf image/jpeg image/png image/webp].freeze
   MAX_DOCUMENT_SIZE = 10.megabytes
 

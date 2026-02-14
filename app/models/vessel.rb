@@ -1,6 +1,15 @@
 class Vessel < ApplicationRecord
   IMO_FORMAT = /\A\d{7}\z/
 
+  # Ransack configuration
+  def self.ransackable_attributes(auth_object = nil)
+    %w[name imo management_company created_at updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[crew_members]
+  end
+
   has_many :crew_members, dependent: :destroy
   has_many :matrix_requirements, dependent: :destroy
   has_many :certificate_types, through: :matrix_requirements

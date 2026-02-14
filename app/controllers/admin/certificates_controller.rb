@@ -114,8 +114,5 @@ module Admin
       )
     end
 
-    def redirect_back_or_to(fallback)
-      redirect_back(fallback_location: fallback)
-    end
   end
 end
