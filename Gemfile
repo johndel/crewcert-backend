@@ -61,7 +61,7 @@ gem "pagy", "~> 43.2.2"
 gem "simple_calendar", "~> 3.1.0"
 
 # AWS S3 for Cloudflare R2
-gem "aws-sdk-s3", "~> 1.212.0", require: false
+gem "aws-sdk-s3", "~> 1.213.0", require: false
 
 # Audit trails
 gem "paper_trail", "~> 17.0.0"
