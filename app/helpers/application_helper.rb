@@ -1,11 +1,9 @@
 module ApplicationHelper
-  # Pagy 43+ has bootstrap_series_nav as an instance method on the Pagy object
-  # This helper wraps it for convenience in views
+  # Pagy 43+ uses series_nav with style argument for Bootstrap
   def pagy_bootstrap_nav(pagy)
     return '' if pagy.pages <= 1
 
-    # Use Pagy 43+'s built-in bootstrap helper
-    pagy.bootstrap_series_nav(classes: 'pagination mb-0').html_safe
+    pagy.series_nav(:bootstrap, classes: 'pagination mb-0').html_safe
   end
 
   def evaluate_page_title(fallback: "CrewCert")
