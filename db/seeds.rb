@@ -7,11 +7,11 @@
 puts "Seeding database..."
 
 # =============================================================================
-# SUPER ADMIN
+# SUPER ADMINS
 # =============================================================================
-if SuperAdmin.count.zero?
-  SuperAdmin.create!(email: "admin@crewcert.com")
-  puts "Created default super admin: admin@crewcert.com"
+%w[istoselidas@gmail.com dimitris@intoolecta.com].each do |email|
+  SuperAdmin.find_or_create_by!(email: email)
+  puts "Created super admin: #{email}"
 end
 
 # =============================================================================
@@ -343,16 +343,20 @@ end
 puts "Created #{matrix_count} matrix requirements"
 
 # =============================================================================
-# SAMPLE USERS
+# ADMIN USERS
 # =============================================================================
-puts "Creating sample admin user..."
+puts "Creating admin users..."
 
-admin_user = User.find_or_create_by!(email: "admin@crewcert.com") do |u|
-  u.first_name = "Admin"
-  u.last_name = "User"
+[
+  { email: "istoselidas@gmail.com", first_name: "Giannis", last_name: "Stoselidas" },
+  { email: "dimitris@intoolecta.com", first_name: "Dimitris", last_name: "Intoolecta" }
+].each do |user_data|
+  user = User.find_or_create_by!(email: user_data[:email]) do |u|
+    u.first_name = user_data[:first_name]
+    u.last_name = user_data[:last_name]
+  end
+  puts "Admin user created: #{user.email}"
 end
-
-puts "Admin user created: #{admin_user.email}"
 
 # =============================================================================
 # SAMPLE CREW MEMBERS
