@@ -35,7 +35,7 @@ gem "redis", "~> 5.4.0"
 gem "gemini-ai", "~> 4.2.0"
 
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", "~> 1.21.1", require: false
+gem "bootsnap", "~> 1.23.0", require: false
 
 # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
 gem "kamal", "~> 2.10.1", require: false
