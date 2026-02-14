@@ -17,9 +17,8 @@ proxy:
   ssl: false
   host: crewcert.xeri.eu
 
-# Where you keep your container images (GitHub Container Registry).
+# Where you keep your container images (Docker Hub).
 registry:
-  server: ghcr.io
   username:
     - KAMAL_REGISTRY_USERNAME
   password:
