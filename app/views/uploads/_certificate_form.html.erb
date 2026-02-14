@@ -1,7 +1,5 @@
 <%= form_with url: upload_certificate_path(token: certificate_request.token),
              method: :post,
-             multipart: true,
-             data: { turbo: false },
              class: "certificate-upload-form" do |f| %>
   <%= hidden_field_tag :certificate_type_id, certificate_type.id %>
 
@@ -23,10 +21,11 @@
 
     <div class="col-md-6">
       <label class="form-label">Document</label>
-      <%= file_field_tag :document, class: "form-control", accept: ".pdf,.jpg,.jpeg,.png" %>
+      <%= file_field_tag :document, class: "form-control", accept: ".pdf,.jpg,.jpeg,.png", direct_upload: true %>
       <% if certificate.document.attached? %>
-        <small class="text-muted">
-          Current: <%= certificate.document.filename %>
+        <small class="text-success d-block mt-1">
+          <i class="fas fa-check-circle me-1"></i>
+          Uploaded: <%= certificate.document.filename %>
           (<%= number_to_human_size(certificate.document.byte_size) %>)
         </small>
       <% end %>
