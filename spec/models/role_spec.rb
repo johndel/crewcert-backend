@@ -6,7 +6,7 @@ RSpec.describe Role, type: :model do
 
     context 'name uniqueness' do
       subject { create(:role) }
-      it { should validate_uniqueness_of(:name) }
+      it { should validate_uniqueness_of(:name).case_insensitive }
     end
   end
 

@@ -7,7 +7,7 @@ RSpec.describe CertificateType, type: :model do
 
     context 'code uniqueness' do
       subject { create(:certificate_type) }
-      it { should validate_uniqueness_of(:code) }
+      it { should validate_uniqueness_of(:code).case_insensitive }
     end
   end
 
