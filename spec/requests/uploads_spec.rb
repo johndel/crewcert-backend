@@ -135,6 +135,29 @@ RSpec.describe 'Uploads', type: :request do
       end
     end
 
+    context 'with certificate_type not in matrix' do
+      let(:other_certificate_type) { create(:certificate_type, code: 'OTHER-001') }
+      let(:unauthorized_params) do
+        {
+          certificate_type_id: other_certificate_type.id,
+          certificate_number: 'CERT-456',
+          issue_date: 1.year.ago.to_date,
+          expiry_date: 4.years.from_now.to_date
+        }
+      end
+
+      it 'returns forbidden status' do
+        post upload_certificate_path(token: certificate_request.token), params: unauthorized_params
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it 'does not create a certificate' do
+        expect {
+          post upload_certificate_path(token: certificate_request.token), params: unauthorized_params
+        }.not_to change(Certificate, :count)
+      end
+    end
+
     context 'with expired request' do
       let(:expired_request) { create(:certificate_request, :expired, crew_member: crew_member) }
 

@@ -116,7 +116,7 @@ RSpec.describe 'Admin::Vessels', type: :request do
 
       it 'returns unprocessable entity' do
         post admin_vessels_path, params: invalid_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -155,7 +155,7 @@ RSpec.describe 'Admin::Vessels', type: :request do
 
       it 'returns unprocessable entity' do
         patch admin_vessel_path(vessel), params: invalid_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -197,7 +197,7 @@ RSpec.describe 'Admin::Vessels', type: :request do
 
       it 'displays compliance information' do
         get readiness_admin_vessel_path(vessel)
-        expect(response.body).to include(crew_member.full_name)
+        expect(response.body).to include(CGI.escapeHTML(crew_member.full_name))
       end
     end
   end

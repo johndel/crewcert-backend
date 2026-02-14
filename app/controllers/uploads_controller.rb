@@ -27,6 +27,12 @@ class UploadsController < ApplicationController
 
   def upload_certificate
     @certificate_type = CertificateType.find(params[:certificate_type_id])
+
+    # Validate certificate type is required by matrix for this crew member's role/vessel
+    unless allowed_certificate_type?(@certificate_type)
+      return head :forbidden
+    end
+
     @certificate = find_or_build_certificate
 
     if @certificate.update(certificate_params)
@@ -86,5 +92,13 @@ class UploadsController < ApplicationController
 
   def certificate_params
     params.permit(:certificate_number, :issue_date, :expiry_date, :document).merge(status: "pending")
+  end
+
+  def allowed_certificate_type?(certificate_type)
+    MatrixRequirement.exists?(
+      vessel: @vessel,
+      role: @role,
+      certificate_type: certificate_type
+    )
   end
 end

@@ -22,7 +22,7 @@ module Admin
       if @role.save
         redirect_to admin_roles_path, notice: "Role was successfully created."
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -33,7 +33,7 @@ module Admin
       if @role.update(role_params)
         redirect_to admin_roles_path, notice: "Role was successfully updated."
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

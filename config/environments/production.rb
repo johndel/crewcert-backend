@@ -21,8 +21,8 @@ Rails.application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  # Store uploaded files on Cloudflare R2 (S3-compatible).
+  config.active_storage.service = :cloudflare
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # config.assume_ssl = true
@@ -46,12 +46,19 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Replace the default in-process memory cache store with a durable alternative.
-  config.cache_store = :solid_cache_store
+  # Use Redis for distributed caching (REQUIRED for rate limiting across instances).
+  if ENV["REDIS_URL"].present?
+    config.cache_store = :redis_cache_store, { url: ENV["REDIS_URL"], expires_in: 1.hour }
+  else
+    # SECURITY WARNING: Without Redis, rate limiting is per-process only.
+    # In multi-node deployments, this allows attackers to bypass rate limits.
+    # Set REDIS_URL in production to enable distributed rate limiting.
+    config.cache_store = :memory_store
+    warn "[SECURITY] REDIS_URL not set. Rate limiting will not work across multiple instances!"
+  end
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
-  config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
+  config.active_job.queue_adapter = :good_job
 
   # Email configuration
   config.action_mailer.raise_delivery_errors = true

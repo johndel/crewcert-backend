@@ -87,7 +87,7 @@ RSpec.describe 'Admin::CertificateTypes', type: :request do
 
       it 'returns unprocessable entity' do
         post admin_certificate_types_path, params: invalid_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
@@ -139,7 +139,7 @@ RSpec.describe 'Admin::CertificateTypes', type: :request do
     context 'with invalid params' do
       it 'returns unprocessable entity' do
         patch admin_certificate_type_path(certificate_type), params: invalid_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

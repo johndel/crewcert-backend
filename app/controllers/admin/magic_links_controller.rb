@@ -5,6 +5,7 @@ module Admin
     layout "admin_auth"
 
     before_action :require_not_authenticated_user!, only: [:new, :create, :verify]
+    rate_limit to: 20, within: 3.minutes, only: [:create]
 
     def new
     end

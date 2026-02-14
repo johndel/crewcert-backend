@@ -67,7 +67,7 @@ RSpec.describe 'Admin::Roles', type: :request do
 
       it 'returns unprocessable entity' do
         post admin_roles_path, params: invalid_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
@@ -107,7 +107,7 @@ RSpec.describe 'Admin::Roles', type: :request do
     context 'with invalid params' do
       it 'returns unprocessable entity' do
         patch admin_role_path(role), params: invalid_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

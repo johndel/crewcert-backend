@@ -28,6 +28,12 @@ gem "tzinfo-data", "~> 1.2024", platforms: %i[ windows jruby ]
 # Background job processing
 gem "good_job", "~> 4.13.1"
 
+# Redis for caching and rate limiting in production
+gem "redis", "~> 5.4.0"
+
+# Google Gemini AI for document OCR
+gem "gemini-ai", "~> 4.2.0"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", "~> 1.21.1", require: false
 

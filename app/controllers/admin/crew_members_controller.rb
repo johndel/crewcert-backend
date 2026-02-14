@@ -26,7 +26,7 @@ module Admin
       if @crew_member.save
         redirect_to admin_crew_member_path(@crew_member), notice: "Crew member was successfully created."
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -37,7 +37,7 @@ module Admin
       if @crew_member.update(crew_member_params)
         redirect_to admin_crew_member_path(@crew_member), notice: "Crew member was successfully updated."
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

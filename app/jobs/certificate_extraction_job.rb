@@ -4,13 +4,7 @@ class CertificateExtractionJob < ApplicationJob
   queue_as :default
 
   # This job extracts certificate information from uploaded documents using AI.
-  # Currently implemented as a mock - can be replaced with actual AI integration.
-  #
-  # Supported AI backends (to be implemented):
-  # - OpenAI GPT-4 Vision
-  # - Claude (Anthropic)
-  # - Azure Document Intelligence
-  # - Google Cloud Document AI
+  # Uses Google Gemini 1.5 Flash for OCR and data extraction.
   def perform(certificate_id)
     certificate = Certificate.find_by(id: certificate_id)
     return unless certificate
@@ -33,8 +27,9 @@ class CertificateExtractionJob < ApplicationJob
       )
     else
       # Extraction failed, still mark as pending for manual review
+      # Set extraction_method to prevent re-enqueue loop
       certificate.update!(
-        extracted_data: { error: extracted_data[:error], raw_text: extracted_data[:raw_text] },
+        extracted_data: extracted_data.merge(extraction_method: extracted_data[:extraction_method] || "failed"),
         status: "pending"
       )
     end
@@ -42,9 +37,10 @@ class CertificateExtractionJob < ApplicationJob
     Rails.logger.info "Certificate ##{certificate_id} extraction completed: #{extracted_data}"
   rescue StandardError => e
     Rails.logger.error "Certificate extraction failed for ##{certificate_id}: #{e.message}"
+    # Set extraction_method to prevent re-enqueue loop from after_commit callback
     certificate&.update!(
       status: "pending",
-      extracted_data: { error: e.message }
+      extracted_data: { error: e.message, extraction_method: "error" }
     )
     raise # Re-raise for job retry
   end
@@ -52,38 +48,33 @@ class CertificateExtractionJob < ApplicationJob
   private
 
   def extract_certificate_data(certificate)
-    # Mock implementation - simulates AI extraction
-    # Replace this with actual AI service call in production
+    # Use mock in test environment
+    return mock_extraction_result if Rails.env.test?
 
-    if Rails.env.test?
-      return mock_extraction_result
+    # Use Gemini for real extraction
+    if gemini_configured?
+      extractor = Ocr::GeminiExtractor.new
+      extractor.extract(certificate.document)
+    else
+      Rails.logger.warn "Gemini API key not configured, using mock extraction"
+      mock_extraction_result
     end
+  end
 
-    # In development/production, we can integrate with AI services
-    # For now, return a mock result with realistic delay
-    sleep(rand(1..3)) if Rails.env.development?
-
-    mock_extraction_result
+  def gemini_configured?
+    Rails.application.credentials.dig(:google, :gemini_api_key).present?
   end
 
   def mock_extraction_result
-    # Simulate successful extraction with mock data
-    # In real implementation, this would parse the document using AI
-
     {
       success: true,
-      confidence: 0.85 + rand * 0.15, # 85-100% confidence
-      certificate_number: generate_mock_certificate_number,
+      confidence: 0.85 + rand * 0.15,
+      certificate_number: "MOCK-#{SecureRandom.alphanumeric(8).upcase}",
       issue_date: rand(1..5).years.ago.to_date,
       expiry_date: rand(1..3).years.from_now.to_date,
-      issuing_authority: ["Maritime Authority", "Flag State Administration", "Classification Society"].sample,
+      issuing_authority: "Mock Authority",
       raw_text: "Mock extracted text from document...",
-      extraction_method: "mock_ai"
+      extraction_method: "mock"
     }
-  end
-
-  def generate_mock_certificate_number
-    prefix = %w[CERT COC STCW MED FLAG].sample
-    "#{prefix}-#{SecureRandom.alphanumeric(8).upcase}"
   end
 end

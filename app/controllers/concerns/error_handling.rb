@@ -26,8 +26,8 @@ module ErrorHandling
 
     respond_to do |format|
       format.html { redirect_back fallback_location: root_path, alert: exception.message }
-      format.json { render json: { error: exception.message }, status: :unprocessable_entity }
-      format.turbo_stream { head :unprocessable_entity }
+      format.json { render json: { error: exception.message }, status: :unprocessable_content }
+      format.turbo_stream { head :unprocessable_content }
     end
   end
 

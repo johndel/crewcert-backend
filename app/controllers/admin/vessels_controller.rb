@@ -23,7 +23,7 @@ module Admin
       if @vessel.save
         redirect_to admin_vessel_path(@vessel), notice: "Vessel was successfully created."
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -34,7 +34,7 @@ module Admin
       if @vessel.update(vessel_params)
         redirect_to admin_vessel_path(@vessel), notice: "Vessel was successfully updated."
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

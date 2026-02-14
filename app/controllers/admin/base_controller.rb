@@ -17,7 +17,7 @@ module Admin
     def require_user!
       return if user_signed_in?
 
-      store_location_for(:user, request.fullpath) if request.get?
+      store_location_for(:user, request.fullpath) if request.get? || request.head?
       redirect_to new_admin_magic_link_path, alert: "Please sign in to continue."
     end
 

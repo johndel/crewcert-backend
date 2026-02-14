@@ -42,8 +42,6 @@ Rails.application.routes.draw do
         post :reject
       end
     end
-    resources :certificate_requests, only: [:index, :show]
-
     resources :matrix, only: [:index] do
       collection do
         patch :update_requirement

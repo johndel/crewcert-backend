@@ -87,6 +87,16 @@ RSpec.describe 'Admin::MagicLinks', type: :request do
         expect(response).to redirect_to(admin_root_path)
       end
     end
+
+    context 'rate limiting' do
+      it 'has rate limiting configured on the controller' do
+        # Verify rate_limit is defined in controller source
+        controller_source = File.read(Rails.root.join('app/controllers/admin/magic_links_controller.rb'))
+        expect(controller_source).to include('rate_limit to: 20')
+        expect(controller_source).to include('within: 3.minutes')
+        expect(controller_source).to include('only: [:create]')
+      end
+    end
   end
 
   describe 'GET /admin/magic_links/verify/:token' do

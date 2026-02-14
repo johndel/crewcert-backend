@@ -22,7 +22,7 @@ module Admin
       if @certificate_type.save
         redirect_to admin_certificate_types_path, notice: "Certificate type was successfully created."
       else
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -33,7 +33,7 @@ module Admin
       if @certificate_type.update(certificate_type_params)
         redirect_to admin_certificate_types_path, notice: "Certificate type was successfully updated."
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

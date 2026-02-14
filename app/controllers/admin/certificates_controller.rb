@@ -34,7 +34,7 @@ module Admin
       else
         @crew_members = CrewMember.ordered.includes(:vessel, :role)
         @certificate_types = CertificateType.ordered
-        render :new, status: :unprocessable_entity
+        render :new, status: :unprocessable_content
       end
     end
 
@@ -50,7 +50,7 @@ module Admin
       else
         @crew_members = CrewMember.ordered.includes(:vessel, :role)
         @certificate_types = CertificateType.ordered
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 
@@ -109,8 +109,7 @@ module Admin
         :certificate_number,
         :issue_date,
         :expiry_date,
-        :document,
-        :status
+        :document
       )
     end
 
