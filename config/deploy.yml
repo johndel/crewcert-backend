@@ -2,7 +2,7 @@
 service: crewcert
 
 # Name of the container image.
-image: johndel/crewcert
+image: crewcert/crewcert
 
 # Deploy to these servers.
 servers:
