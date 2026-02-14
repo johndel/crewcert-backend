@@ -1,0 +1,52 @@
+<% content_for :header_actions do %>
+  <%= link_to new_admin_certificate_type_path, class: "btn btn-primary" do %>
+    <i class="fas fa-plus me-1"></i> Add Certificate Type
+  <% end %>
+<% end %>
+
+<div class="card">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h5 class="card-title mb-0">Certificate Types</h5>
+      <%= search_form_for @q, url: admin_certificate_types_path, html: { class: "d-flex gap-2" } do |f| %>
+        <%= f.search_field :code_or_name_cont, class: "form-control form-control-sm", placeholder: "Search...", style: "width: 200px" %>
+        <%= f.submit "Search", class: "btn btn-outline-secondary btn-sm" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Validity (months)</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @certificate_types.each do |ct| %>
+            <tr>
+              <td><span class="badge bg-secondary"><%= ct.code %></span></td>
+              <td><%= ct.name %></td>
+              <td><%= ct.validity_period_months || "No expiry" %></td>
+              <td class="text-end">
+                <div class="btn-group btn-group-sm">
+                  <%= link_to edit_admin_certificate_type_path(ct), class: "btn btn-outline-secondary" do %>
+                    <i class="fas fa-edit"></i>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <% if @pagy.pages > 1 %>
+    <div class="card-footer">
+      <%= pagy_bootstrap_nav(@pagy) %>
+    </div>
+  <% end %>
+</div>

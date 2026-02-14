@@ -1,0 +1,114 @@
+<% content_for :header_actions do %>
+  <%= link_to readiness_admin_vessel_path(@vessel), class: "btn btn-info" do %>
+    <i class="fas fa-clipboard-check me-1"></i> Readiness Report
+  <% end %>
+  <% if @crew_members.any? %>
+    <%= button_to request_all_certificates_admin_vessel_path(@vessel),
+        method: :post,
+        class: "btn btn-primary",
+        data: { turbo_confirm: "Send certificate upload request to all #{@crew_members.count} crew members?" } do %>
+      <i class="fas fa-envelope me-1"></i> Request All Certificates
+    <% end %>
+  <% end %>
+  <%= link_to edit_admin_vessel_path(@vessel), class: "btn btn-outline-secondary" do %>
+    <i class="fas fa-edit me-1"></i> Edit
+  <% end %>
+<% end %>
+
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Vessel Details</h5>
+      </div>
+      <div class="card-body">
+        <dl class="mb-0">
+          <dt class="text-muted small">Name</dt>
+          <dd class="mb-3"><%= @vessel.name %></dd>
+
+          <dt class="text-muted small">IMO Number</dt>
+          <dd class="mb-3"><%= @vessel.imo || "-" %></dd>
+
+          <dt class="text-muted small">Management Company</dt>
+          <dd class="mb-3"><%= @vessel.management_company || "-" %></dd>
+
+          <dt class="text-muted small">Created</dt>
+          <dd class="mb-0"><%= @vessel.created_at.strftime("%B %d, %Y") %></dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Statistics</h5>
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted">Total Crew</span>
+          <span class="badge bg-primary"><%= @crew_members.count %></span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted">Certificate Types Required</span>
+          <span class="badge bg-secondary"><%= @vessel.matrix_requirements.select(:certificate_type_id).distinct.count %></span>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="text-muted">Roles Configured</span>
+          <span class="badge bg-secondary"><%= @vessel.matrix_requirements.select(:role_id).distinct.count %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">Crew Members</h5>
+        <%= link_to new_admin_crew_member_path(vessel_id: @vessel.id), class: "btn btn-primary btn-sm" do %>
+          <i class="fas fa-plus me-1"></i> Add Crew
+        <% end %>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @crew_members.each do |crew_member| %>
+                <tr>
+                  <td>
+                    <%= link_to crew_member.full_name, admin_crew_member_path(crew_member), class: "text-decoration-none" %>
+                  </td>
+                  <td><%= crew_member.role.name %></td>
+                  <td><%= crew_member.email %></td>
+                  <td class="text-end">
+                    <div class="btn-group btn-group-sm">
+                      <%= link_to admin_crew_member_path(crew_member), class: "btn btn-outline-secondary" do %>
+                        <i class="fas fa-eye"></i>
+                      <% end %>
+                      <%= link_to edit_admin_crew_member_path(crew_member), class: "btn btn-outline-secondary" do %>
+                        <i class="fas fa-edit"></i>
+                      <% end %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+              <% if @crew_members.empty? %>
+                <tr>
+                  <td colspan="4" class="text-center text-muted py-4">
+                    No crew members assigned to this vessel.
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

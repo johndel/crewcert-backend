@@ -1,0 +1,31 @@
+<%
+  # Cycle through: none -> M -> O -> none
+  next_level = case level
+               when nil, ""
+                 "M"
+               when "M"
+                 "O"
+               when "O"
+                 "none"
+               end
+
+  btn_class = case level
+              when "M"
+                "btn-danger"
+              when "O"
+                "btn-warning"
+              else
+                "btn-light"
+              end
+
+  display = level.presence || "-"
+%>
+
+<%= button_to update_requirement_admin_matrix_index_path,
+    method: :patch,
+    class: "matrix-btn btn #{btn_class}",
+    title: "Click to change (#{display})",
+    params: { vessel_id: vessel.id, certificate_type_id: ct.id, role_id: role.id, level: next_level },
+    data: { turbo_frame: "_top" } do %>
+  <%= display %>
+<% end %>

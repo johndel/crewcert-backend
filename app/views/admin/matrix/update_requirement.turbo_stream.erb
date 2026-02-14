@@ -1,0 +1,8 @@
+<%= turbo_stream.replace "cell_#{@certificate_type.id}_#{@role.id}" do %>
+  <td class="text-center role-cell p-0"
+      id="cell_<%= @certificate_type.id %>_<%= @role.id %>"
+      data-certificate-type-id="<%= @certificate_type.id %>"
+      data-role-id="<%= @role.id %>">
+    <%= render partial: "matrix_cell", locals: { level: @level, ct: @certificate_type, role: @role, vessel: @vessel } %>
+  </td>
+<% end %>

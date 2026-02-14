@@ -1,0 +1,115 @@
+<div class="row">
+  <div class="col-lg-8 mx-auto">
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <h4 class="card-title mb-0">Certificate Upload Request</h4>
+      </div>
+      <div class="card-body">
+        <div class="row mb-4">
+          <div class="col-sm-6">
+            <p class="mb-1 text-muted small">Crew Member</p>
+            <p class="fw-medium mb-0"><%= @crew_member.full_name %></p>
+          </div>
+          <div class="col-sm-6">
+            <p class="mb-1 text-muted small">Role</p>
+            <p class="fw-medium mb-0"><%= @role.name %></p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <p class="mb-1 text-muted small">Vessel</p>
+            <p class="fw-medium mb-0"><%= @vessel.name %></p>
+          </div>
+          <div class="col-sm-6">
+            <p class="mb-1 text-muted small">Request Expires</p>
+            <p class="fw-medium mb-0"><%= @certificate_request.expires_at.strftime("%B %d, %Y") %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Required Certificates</h5>
+      </div>
+      <div class="card-body">
+        <p class="text-muted mb-4">
+          Please upload the following certificates. Click on each certificate to expand the upload form.
+          Certificates marked as <span class="badge bg-danger">M</span> are mandatory.
+        </p>
+
+        <div class="accordion" id="certificatesAccordion">
+          <% @required_certificates.each_with_index do |requirement, index| %>
+            <% certificate_type = requirement.certificate_type %>
+            <% existing_cert = @existing_certificates[certificate_type.id] %>
+
+            <div class="accordion-item" id="certificate_item_<%= certificate_type.id %>">
+              <h2 class="accordion-header">
+                <button class="accordion-button <%= index > 0 ? 'collapsed' : '' %>"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapse_<%= certificate_type.id %>">
+                  <div class="d-flex align-items-center gap-3 w-100">
+                    <% if requirement.mandatory? %>
+                      <span class="badge bg-danger">M</span>
+                    <% else %>
+                      <span class="badge bg-warning text-dark">O</span>
+                    <% end %>
+
+                    <div class="flex-fill">
+                      <span class="fw-medium"><%= certificate_type.name %></span>
+                      <span class="text-muted ms-2">(<%= certificate_type.code %>)</span>
+                    </div>
+
+                    <% if existing_cert %>
+                      <% case existing_cert.status %>
+                      <% when 'pending' %>
+                        <span class="badge bg-warning">Uploaded - Pending Review</span>
+                      <% when 'processing' %>
+                        <span class="badge bg-info">Processing</span>
+                      <% when 'verified' %>
+                        <span class="badge bg-success">Verified</span>
+                      <% when 'rejected' %>
+                        <span class="badge bg-danger">Rejected - Please Re-upload</span>
+                      <% end %>
+                    <% else %>
+                      <span class="badge bg-secondary">Not Uploaded</span>
+                    <% end %>
+                  </div>
+                </button>
+              </h2>
+              <div id="collapse_<%= certificate_type.id %>"
+                   class="accordion-collapse collapse <%= index == 0 ? 'show' : '' %>"
+                   data-bs-parent="#certificatesAccordion">
+                <div class="accordion-body" id="certificate_form_<%= certificate_type.id %>">
+                  <%= render partial: "certificate_form", locals: {
+                    certificate_type: certificate_type,
+                    certificate: existing_cert || Certificate.new,
+                    certificate_request: @certificate_request
+                  } %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <% if @required_certificates.any? %>
+      <div class="card">
+        <div class="card-body text-center">
+          <p class="mb-3">Once you have uploaded all required certificates, click below to submit for review.</p>
+          <%= button_to "Submit All Certificates for Review",
+              upload_path(token: @certificate_request.token),
+              method: :post,
+              class: "btn btn-primary btn-lg",
+              data: { turbo_confirm: "Are you sure you want to submit? You won't be able to make changes after submission." } %>
+        </div>
+      </div>
+    <% else %>
+      <div class="alert alert-info">
+        No certificates are currently required for your role on this vessel.
+      </div>
+    <% end %>
+  </div>
+</div>

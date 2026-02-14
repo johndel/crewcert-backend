@@ -28,8 +28,41 @@ Rails.application.routes.draw do
         get :verify
       end
     end
+
+    resources :vessels do
+      member do
+        post :request_all_certificates
+        get :readiness
+      end
+    end
+    resources :roles
+    resources :certificate_types
+    resources :crew_members do
+      member do
+        post :send_certificate_request
+      end
+    end
+    resources :certificates do
+      member do
+        post :verify
+        post :reject
+      end
+    end
+    resources :certificate_requests, only: [:index, :show]
+
+    resources :matrix, only: [:index] do
+      collection do
+        patch :update_requirement
+      end
+    end
+
     root "home#index"
   end
+
+  # Public certificate upload (no authentication required)
+  get "upload/:token", to: "uploads#show", as: :upload
+  post "upload/:token", to: "uploads#submit"
+  post "upload/:token/upload_certificate", to: "uploads#upload_certificate", as: :upload_certificate
 
   # Root path - redirect to admin
   root "admin/home#index"

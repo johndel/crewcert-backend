@@ -1,0 +1,184 @@
+<% content_for :page_title, "#{@vessel.name} - Readiness Report" %>
+
+<% content_for :header_actions do %>
+  <%= link_to admin_vessel_path(@vessel), class: "btn btn-outline-secondary" do %>
+    <i class="fas fa-arrow-left me-1"></i> Back to Vessel
+  <% end %>
+  <% if @crew_members.any? %>
+    <%= button_to request_all_certificates_admin_vessel_path(@vessel),
+        method: :post,
+        class: "btn btn-primary",
+        data: { turbo_confirm: "Send certificate upload request to all #{@crew_members.count} crew members?" } do %>
+      <i class="fas fa-envelope me-1"></i> Request All Certificates
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="row mb-4">
+  <div class="col-lg-3 col-md-6 mb-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <div class="display-4 fw-bold <%= @compliance_stats[:percentage] >= 90 ? 'text-success' : @compliance_stats[:percentage] >= 70 ? 'text-warning' : 'text-danger' %>">
+          <%= @compliance_stats[:percentage] %>%
+        </div>
+        <div class="text-muted">Overall Compliance</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 mb-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <div class="display-4 fw-bold text-success"><%= @compliance_stats[:compliant] %></div>
+        <div class="text-muted">Compliant Certificates</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 mb-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <div class="display-4 fw-bold text-danger"><%= @compliance_stats[:missing] + @compliance_stats[:expired] %></div>
+        <div class="text-muted">Missing / Expired</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3 col-md-6 mb-3">
+    <div class="card text-center h-100">
+      <div class="card-body">
+        <div class="display-4 fw-bold text-warning"><%= @compliance_stats[:expiring] %></div>
+        <div class="text-muted">Expiring Soon</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h5 class="card-title mb-0">Certificate Readiness Matrix</h5>
+      <div class="d-flex gap-3">
+        <div class="d-flex align-items-center gap-1">
+          <span class="status-dot status-valid"></span>
+          <small class="text-muted">Valid</small>
+        </div>
+        <div class="d-flex align-items-center gap-1">
+          <span class="status-dot status-expiring"></span>
+          <small class="text-muted">Expiring</small>
+        </div>
+        <div class="d-flex align-items-center gap-1">
+          <span class="status-dot status-pending"></span>
+          <small class="text-muted">Pending</small>
+        </div>
+        <div class="d-flex align-items-center gap-1">
+          <span class="status-dot status-missing"></span>
+          <small class="text-muted">Missing</small>
+        </div>
+        <div class="d-flex align-items-center gap-1">
+          <span class="status-dot status-expired"></span>
+          <small class="text-muted">Expired</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body p-0">
+    <% if @crew_members.any? && @certificate_types.any? %>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered readiness-table mb-0">
+          <thead class="table-light">
+            <tr>
+              <th class="crew-col" style="min-width: 200px;">Crew Member</th>
+              <th class="role-col" style="min-width: 120px;">Role</th>
+              <% @certificate_types.each do |ct| %>
+                <th class="cert-col text-center" style="min-width: 40px; writing-mode: vertical-rl; text-orientation: mixed; height: 140px;">
+                  <small title="<%= ct.name %>"><%= ct.code %></small>
+                </th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @crew_members.each do |cm| %>
+              <tr>
+                <td class="crew-col">
+                  <%= link_to cm.full_name, admin_crew_member_path(cm), class: "text-decoration-none" %>
+                </td>
+                <td class="role-col"><small><%= cm.role.name %></small></td>
+                <% @certificate_types.each do |ct| %>
+                  <% data = @readiness_matrix.dig(cm.id, ct.id) %>
+                  <td class="text-center p-0">
+                    <% if data %>
+                      <% status = data[:status] %>
+                      <% cert = data[:certificate] %>
+                      <% req = data[:requirement] %>
+                      <div class="readiness-cell readiness-<%= status %> <%= req.mandatory? ? 'mandatory' : 'optional' %>"
+                           title="<%= ct.name %> - <%= status.to_s.titleize %><%= cert&.expiry_date ? " (Expires: #{cert.expiry_date.strftime('%Y-%m-%d')})" : '' %>">
+                        <% if cert && cert.persisted? %>
+                          <%= link_to admin_certificate_path(cert), class: "text-decoration-none" do %>
+                            <%= status_icon(status) %>
+                          <% end %>
+                        <% else %>
+                          <%= status_icon(status) %>
+                        <% end %>
+                      </div>
+                    <% else %>
+                      <div class="readiness-cell readiness-na" title="Not required for this role">
+                        <small class="text-muted">-</small>
+                      </div>
+                    <% end %>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="text-center py-5 text-muted">
+        <% if @crew_members.empty? %>
+          <p>No crew members assigned to this vessel.</p>
+          <%= link_to "Add Crew Members", new_admin_crew_member_path(vessel_id: @vessel.id), class: "btn btn-primary" %>
+        <% else %>
+          <p>No certificate requirements configured for this vessel.</p>
+          <%= link_to "Configure Training Matrix", admin_matrix_index_path(vessel_id: @vessel.id), class: "btn btn-primary" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  .status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .status-valid { background-color: #198754; }
+  .status-expiring { background-color: #ffc107; }
+  .status-pending { background-color: #0dcaf0; }
+  .status-missing { background-color: #dc3545; }
+  .status-expired { background-color: #6c757d; }
+
+  .readiness-table {
+    font-size: 0.85em;
+  }
+
+  .readiness-cell {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px auto;
+    border-radius: 4px;
+  }
+
+  .readiness-valid { background-color: rgba(25, 135, 84, 0.2); }
+  .readiness-expiring_soon { background-color: rgba(255, 193, 7, 0.3); }
+  .readiness-pending { background-color: rgba(13, 202, 240, 0.2); }
+  .readiness-missing { background-color: rgba(220, 53, 69, 0.2); }
+  .readiness-expired { background-color: rgba(108, 117, 125, 0.3); }
+  .readiness-rejected { background-color: rgba(220, 53, 69, 0.3); }
+  .readiness-na { background-color: transparent; }
+
+  .readiness-cell.mandatory { border: 2px solid rgba(220, 53, 69, 0.3); }
+  .readiness-cell.optional { border: 1px dashed rgba(108, 117, 125, 0.3); }
+</style>

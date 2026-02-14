@@ -1,0 +1,41 @@
+<%= form_with model: [:admin, vessel], class: "needs-validation" do |f| %>
+  <% if vessel.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% vessel.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :name, class: "form-label" %>
+    <%= f.text_field :name, class: "form-control #{'is-invalid' if vessel.errors[:name].any?}", required: true %>
+    <% if vessel.errors[:name].any? %>
+      <div class="invalid-feedback"><%= vessel.errors[:name].first %></div>
+    <% end %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :imo, "IMO Number", class: "form-label" %>
+    <%= f.text_field :imo, class: "form-control #{'is-invalid' if vessel.errors[:imo].any?}", placeholder: "IMO1234567" %>
+    <% if vessel.errors[:imo].any? %>
+      <div class="invalid-feedback"><%= vessel.errors[:imo].first %></div>
+    <% end %>
+    <div class="form-text">Optional. International Maritime Organization number.</div>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :management_company, class: "form-label" %>
+    <%= f.text_field :management_company, class: "form-control #{'is-invalid' if vessel.errors[:management_company].any?}" %>
+    <% if vessel.errors[:management_company].any? %>
+      <div class="invalid-feedback"><%= vessel.errors[:management_company].first %></div>
+    <% end %>
+  </div>
+
+  <div class="d-flex gap-2">
+    <%= f.submit "Save Vessel", class: "btn btn-primary" %>
+    <%= link_to "Cancel", vessel.persisted? ? admin_vessel_path(vessel) : admin_vessels_path, class: "btn btn-outline-secondary" %>
+  </div>
+<% end %>

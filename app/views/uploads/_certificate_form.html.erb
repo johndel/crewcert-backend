@@ -1,0 +1,56 @@
+<%= form_with url: upload_certificate_path(token: certificate_request.token),
+             method: :post,
+             local: false,
+             class: "certificate-upload-form" do |f| %>
+  <%= hidden_field_tag :certificate_type_id, certificate_type.id %>
+
+  <% if certificate.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% certificate.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Certificate Number</label>
+      <%= text_field_tag :certificate_number, certificate.certificate_number, class: "form-control", placeholder: "e.g., ABC123456" %>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Document</label>
+      <%= file_field_tag :document, class: "form-control", accept: ".pdf,.jpg,.jpeg,.png" %>
+      <% if certificate.document.attached? %>
+        <small class="text-muted">
+          Current: <%= certificate.document.filename %>
+          (<%= number_to_human_size(certificate.document.byte_size) %>)
+        </small>
+      <% end %>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Issue Date</label>
+      <%= date_field_tag :issue_date, certificate.issue_date, class: "form-control" %>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Expiry Date</label>
+      <%= date_field_tag :expiry_date, certificate.expiry_date, class: "form-control" %>
+      <% if certificate_type.validity_period_months %>
+        <small class="text-muted">This certificate requires renewal every <%= certificate_type.validity_period_months %> months</small>
+      <% else %>
+        <small class="text-muted">No expiry required</small>
+      <% end %>
+    </div>
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-upload me-1"></i>
+        <%= certificate.persisted? ? "Update Certificate" : "Upload Certificate" %>
+      </button>
+    </div>
+  </div>
+<% end %>

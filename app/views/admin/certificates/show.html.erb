@@ -1,0 +1,143 @@
+<% content_for :header_actions do %>
+  <% if @certificate.status.in?(%w[pending processing]) %>
+    <%= button_to verify_admin_certificate_path(@certificate), method: :post, class: "btn btn-success" do %>
+      <i class="fas fa-check me-1"></i> Verify
+    <% end %>
+    <%= button_to reject_admin_certificate_path(@certificate), method: :post, class: "btn btn-danger", data: { turbo_confirm: "Are you sure?" } do %>
+      <i class="fas fa-times me-1"></i> Reject
+    <% end %>
+  <% end %>
+  <%= link_to edit_admin_certificate_path(@certificate), class: "btn btn-outline-secondary" do %>
+    <i class="fas fa-edit me-1"></i> Edit
+  <% end %>
+<% end %>
+
+<div class="row g-4">
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Certificate Details</h5>
+      </div>
+      <div class="card-body">
+        <dl class="mb-0">
+          <dt class="text-muted small">Crew Member</dt>
+          <dd class="mb-3"><%= link_to @certificate.crew_member.full_name, admin_crew_member_path(@certificate.crew_member) %></dd>
+
+          <dt class="text-muted small">Certificate Type</dt>
+          <dd class="mb-3"><%= @certificate.certificate_type.display_name %></dd>
+
+          <dt class="text-muted small">Status</dt>
+          <dd class="mb-3">
+            <% case @certificate.status %>
+            <% when 'pending' %>
+              <span class="badge bg-warning">Pending</span>
+            <% when 'processing' %>
+              <span class="badge bg-info">Processing</span>
+            <% when 'verified' %>
+              <span class="badge bg-success">Verified</span>
+            <% when 'rejected' %>
+              <span class="badge bg-danger">Rejected</span>
+            <% end %>
+          </dd>
+
+          <dt class="text-muted small">Issue Date</dt>
+          <dd class="mb-3"><%= @certificate.issue_date&.strftime("%B %d, %Y") || "-" %></dd>
+
+          <dt class="text-muted small">Expiry Date</dt>
+          <dd class="mb-3">
+            <% if @certificate.expiry_date %>
+              <% if @certificate.expired? %>
+                <span class="text-danger"><%= @certificate.expiry_date.strftime("%B %d, %Y") %> (Expired)</span>
+              <% elsif @certificate.expiring_soon? %>
+                <span class="text-warning"><%= @certificate.expiry_date.strftime("%B %d, %Y") %> (Expiring soon)</span>
+              <% else %>
+                <%= @certificate.expiry_date.strftime("%B %d, %Y") %>
+              <% end %>
+            <% else %>
+              -
+            <% end %>
+          </dd>
+
+          <% if @certificate.verified_at %>
+            <dt class="text-muted small">Verified At</dt>
+            <dd class="mb-3"><%= @certificate.verified_at.strftime("%B %d, %Y %H:%M") %></dd>
+
+            <dt class="text-muted small">Verified By</dt>
+            <dd class="mb-0"><%= @certificate.verified_by&.full_name || "Unknown" %></dd>
+          <% end %>
+        </dl>
+      </div>
+    </div>
+
+    <% if @certificate.extracted_data.present? && @certificate.extracted_data.except("raw_text").present? %>
+      <div class="card mt-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">AI Extracted Data</h5>
+          <% if @certificate.extracted_data["confidence"] %>
+            <span class="badge <%= @certificate.extracted_data["confidence"].to_f > 0.9 ? 'bg-success' : 'bg-warning' %>">
+              <%= (@certificate.extracted_data["confidence"].to_f * 100).round %>% confidence
+            </span>
+          <% end %>
+        </div>
+        <div class="card-body">
+          <dl class="mb-0">
+            <% if @certificate.extracted_data["certificate_number"] %>
+              <dt class="text-muted small">Certificate Number</dt>
+              <dd class="mb-2"><%= @certificate.extracted_data["certificate_number"] %></dd>
+            <% end %>
+
+            <% if @certificate.extracted_data["issuing_authority"] %>
+              <dt class="text-muted small">Issuing Authority</dt>
+              <dd class="mb-2"><%= @certificate.extracted_data["issuing_authority"] %></dd>
+            <% end %>
+
+            <% if @certificate.extracted_data["extraction_method"] %>
+              <dt class="text-muted small">Extraction Method</dt>
+              <dd class="mb-2"><code><%= @certificate.extracted_data["extraction_method"] %></code></dd>
+            <% end %>
+
+            <% if @certificate.extracted_data["error"] %>
+              <dt class="text-muted small text-danger">Error</dt>
+              <dd class="mb-0 text-danger"><%= @certificate.extracted_data["error"] %></dd>
+            <% end %>
+          </dl>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-lg-6">
+    <% if @certificate.document.attached? %>
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Document</h5>
+        </div>
+        <div class="card-body">
+          <% if @certificate.document.content_type.start_with?('image/') %>
+            <%= image_tag url_for(@certificate.document), class: "img-fluid rounded" %>
+          <% else %>
+            <div class="d-flex align-items-center gap-3 p-3 bg-light rounded">
+              <i class="fas fa-file-pdf fa-2x text-danger"></i>
+              <div>
+                <div class="fw-medium"><%= @certificate.document.filename %></div>
+                <div class="small text-muted"><%= number_to_human_size(@certificate.document.byte_size) %></div>
+              </div>
+            </div>
+          <% end %>
+          <div class="mt-3">
+            <%= link_to url_for(@certificate.document), class: "btn btn-outline-primary", target: "_blank" do %>
+              <i class="fas fa-download me-1"></i> Download
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% else %>
+      <div class="card">
+        <div class="card-body text-center py-5">
+          <i class="fas fa-file-circle-xmark fa-3x text-muted mb-3"></i>
+          <p class="text-muted mb-0">No document attached</p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

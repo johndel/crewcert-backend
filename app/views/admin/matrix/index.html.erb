@@ -1,0 +1,107 @@
+<% content_for :page_title, "Training Matrix" %>
+
+<div class="card mb-4">
+  <div class="card-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h5 class="card-title mb-0">Training Matrix</h5>
+      <div class="d-flex gap-2 align-items-center">
+        <label class="form-label mb-0 me-2">Vessel:</label>
+        <%= form_with url: admin_matrix_index_path, method: :get, local: true, class: "d-flex gap-2" do %>
+          <%= select_tag :vessel_id, options_from_collection_for_select(@vessels, :id, :name, @vessel.id), class: "form-select form-select-sm", style: "width: 200px", onchange: "this.form.submit()" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="d-flex gap-3 mb-3">
+      <div class="d-flex align-items-center gap-1">
+        <span class="badge bg-danger">M</span>
+        <small class="text-muted">Mandatory</small>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <span class="badge bg-warning text-dark">O</span>
+        <small class="text-muted">Optional</small>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <span class="badge bg-light text-muted">-</span>
+        <small class="text-muted">Not Required</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% @certificate_type_groups.each do |group_name, certificate_types| %>
+<div class="card mb-4">
+  <div class="card-header">
+    <h6 class="card-title mb-0"><%= group_name %> (<%= certificate_types.size %>)</h6>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-sm table-bordered matrix-table mb-0">
+        <thead class="table-light">
+          <tr>
+            <th class="certificate-col" style="min-width: 250px;">Certificate</th>
+            <% @roles.each do |role| %>
+              <th class="role-col text-center" style="min-width: 45px; max-width: 60px; writing-mode: vertical-rl; text-orientation: mixed; height: 140px;">
+                <small><%= role.name %></small>
+              </th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+          <% certificate_types.each do |ct| %>
+            <tr>
+              <td class="certificate-col">
+                <div class="d-flex flex-column">
+                  <span class="badge bg-secondary me-auto mb-1" style="font-size: 0.7em;"><%= ct.code %></span>
+                  <small><%= ct.name %></small>
+                </div>
+              </td>
+              <% @roles.each do |role| %>
+                <td class="text-center role-cell p-0"
+                    id="cell_<%= ct.id %>_<%= role.id %>"
+                    data-certificate-type-id="<%= ct.id %>"
+                    data-role-id="<%= role.id %>">
+                  <%= render partial: "matrix_cell", locals: { level: @matrix[ct.id][role.id], ct: ct, role: role, vessel: @vessel } %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<% end %>
+
+<style>
+  .matrix-table {
+    font-size: 0.85em;
+  }
+  .matrix-table th.role-col {
+    padding: 8px 2px;
+    font-weight: 500;
+  }
+  .role-cell {
+    vertical-align: middle;
+    cursor: pointer;
+  }
+  .role-cell:hover {
+    background-color: #f8f9fa;
+  }
+  .matrix-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px auto;
+    border: none;
+    font-weight: bold;
+    font-size: 0.75em;
+  }
+  .matrix-btn.btn-danger { background-color: #dc3545; color: white; }
+  .matrix-btn.btn-warning { background-color: #ffc107; color: #212529; }
+  .matrix-btn.btn-light { background-color: #f8f9fa; color: #6c757d; border: 1px solid #dee2e6; }
+</style>

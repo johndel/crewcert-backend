@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CrewCert - Certificate Upload</title>
+    <meta name="robots" content="noindex, nofollow">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-light">
+    <nav class="navbar navbar-light bg-white shadow-sm mb-4">
+      <div class="container">
+        <span class="navbar-brand mb-0 h1">CrewCert</span>
+      </div>
+    </nav>
+
+    <main class="container pb-5">
+      <% if flash[:notice] %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= flash[:notice] %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% end %>
+
+      <% if flash[:alert] %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= flash[:alert] %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </main>
+
+    <footer class="py-3 bg-white border-top mt-auto">
+      <div class="container text-center text-muted small">
+        CrewCert - Maritime Crew Certification Management
+      </div>
+    </footer>
+  </body>
+</html>

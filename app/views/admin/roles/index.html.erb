@@ -1,0 +1,51 @@
+<% content_for :header_actions do %>
+  <%= link_to new_admin_role_path, class: "btn btn-primary" do %>
+    <i class="fas fa-plus me-1"></i> Add Role
+  <% end %>
+<% end %>
+
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title mb-0">Roles</h5>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover mb-0">
+        <thead>
+          <tr>
+            <th>Position</th>
+            <th>Name</th>
+            <th>Crew Members</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @roles.each do |role| %>
+            <tr>
+              <td><span class="badge bg-secondary"><%= role.position %></span></td>
+              <td><%= role.name %></td>
+              <td><%= role.crew_members.count %></td>
+              <td class="text-end">
+                <div class="btn-group btn-group-sm">
+                  <%= link_to edit_admin_role_path(role), class: "btn btn-outline-secondary" do %>
+                    <i class="fas fa-edit"></i>
+                  <% end %>
+                  <% if role.crew_members.empty? %>
+                    <%= button_to admin_role_path(role), method: :delete, class: "btn btn-outline-danger", data: { turbo_confirm: "Are you sure?" } do %>
+                      <i class="fas fa-trash"></i>
+                    <% end %>
+                  <% end %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <% if @pagy.pages > 1 %>
+    <div class="card-footer">
+      <%= pagy_bootstrap_nav(@pagy) %>
+    </div>
+  <% end %>
+</div>
