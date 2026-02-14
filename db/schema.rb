@@ -10,9 +10,67 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_14_144652) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_14_145459) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "certificate_requests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "crew_member_id", null: false
+    t.datetime "expires_at"
+    t.datetime "sent_at"
+    t.string "status", default: "pending", null: false
+    t.datetime "submitted_at"
+    t.string "token", null: false
+    t.datetime "updated_at", null: false
+    t.index ["crew_member_id"], name: "index_certificate_requests_on_crew_member_id"
+    t.index ["status"], name: "index_certificate_requests_on_status"
+    t.index ["token"], name: "index_certificate_requests_on_token", unique: true
+  end
+
+  create_table "certificate_types", force: :cascade do |t|
+    t.string "code", null: false
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.integer "validity_period_months"
+    t.index ["code"], name: "index_certificate_types_on_code", unique: true
+  end
+
+  create_table "certificates", force: :cascade do |t|
+    t.bigint "certificate_type_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "crew_member_id", null: false
+    t.date "expiry_date"
+    t.jsonb "extracted_data", default: {}
+    t.date "issue_date"
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "verified_at"
+    t.bigint "verified_by_id"
+    t.index ["certificate_type_id"], name: "index_certificates_on_certificate_type_id"
+    t.index ["crew_member_id", "certificate_type_id"], name: "index_certificates_on_crew_member_id_and_certificate_type_id"
+    t.index ["crew_member_id"], name: "index_certificates_on_crew_member_id"
+    t.index ["expiry_date"], name: "index_certificates_on_expiry_date"
+    t.index ["status"], name: "index_certificates_on_status"
+    t.index ["verified_by_id"], name: "index_certificates_on_verified_by_id"
+  end
+
+  create_table "crew_members", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "phone"
+    t.bigint "role_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "vessel_id", null: false
+    t.index ["email"], name: "index_crew_members_on_email"
+    t.index ["role_id"], name: "index_crew_members_on_role_id"
+    t.index ["vessel_id", "role_id"], name: "index_crew_members_on_vessel_id_and_role_id"
+    t.index ["vessel_id"], name: "index_crew_members_on_vessel_id"
+  end
 
   create_table "good_job_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.integer "callback_priority"
@@ -105,6 +163,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_14_144652) do
     t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
   end
 
+  create_table "matrix_requirements", force: :cascade do |t|
+    t.bigint "certificate_type_id", null: false
+    t.datetime "created_at", null: false
+    t.string "requirement_level", null: false
+    t.bigint "role_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "vessel_id", null: false
+    t.index ["certificate_type_id"], name: "index_matrix_requirements_on_certificate_type_id"
+    t.index ["role_id"], name: "index_matrix_requirements_on_role_id"
+    t.index ["vessel_id", "role_id", "certificate_type_id"], name: "idx_matrix_requirements_unique", unique: true
+    t.index ["vessel_id"], name: "index_matrix_requirements_on_vessel_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.integer "position", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_roles_on_name", unique: true
+    t.index ["position"], name: "index_roles_on_position"
+  end
+
   create_table "super_admins", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "current_sign_in_at"
@@ -134,4 +214,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_14_144652) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
+
+  create_table "vessels", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "imo"
+    t.string "management_company"
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["imo"], name: "index_vessels_on_imo", unique: true, where: "(imo IS NOT NULL)"
+  end
+
+  add_foreign_key "certificate_requests", "crew_members"
+  add_foreign_key "certificates", "certificate_types"
+  add_foreign_key "certificates", "crew_members"
+  add_foreign_key "certificates", "users", column: "verified_by_id"
+  add_foreign_key "crew_members", "roles"
+  add_foreign_key "crew_members", "vessels"
+  add_foreign_key "matrix_requirements", "certificate_types"
+  add_foreign_key "matrix_requirements", "roles"
+  add_foreign_key "matrix_requirements", "vessels"
 end
