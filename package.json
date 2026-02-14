@@ -1,0 +1,25 @@
+{
+  "name": "app",
+  "private": true,
+  "devDependencies": {
+    "esbuild": "latest"
+  },
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --minify --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
+    "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --style=compressed"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "latest",
+    "@hotwired/stimulus": "latest",
+    "@hotwired/turbo-rails": "latest",
+    "@popperjs/core": "latest",
+    "@stimulus-components/rails-nested-form": "latest",
+    "bootstrap": "latest",
+    "heic-to": "latest",
+    "choices.js": "latest",
+    "imask": "latest",
+    "intl-tel-input": "latest",
+    "lodash": "latest",
+    "sass": "latest"
+  }
+}

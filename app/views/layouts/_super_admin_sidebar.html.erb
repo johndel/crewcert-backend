@@ -1,0 +1,48 @@
+<div class="position-fixed vh-100 bg-white offcanvas-xl offcanvas-start max-w-sidebar w-sidebar sidebar-container" tabindex="-1" id="offcanvasSidebar">
+  <div class="pb-4 overflow-y-auto d-flex flex-column h-100 scrollbar-hide">
+    <div class="offcanvas-header d-xl-none h-header">
+      <%= link_to super_admin_root_path, class: "text-decoration-none d-flex align-items-center gap-3" do %>
+        <span class="fw-semibold text-dark">CrewCert</span>
+      <% end %>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar"></button>
+    </div>
+
+    <div class="border-light d-none d-xl-block h-header">
+      <%= link_to super_admin_root_path, class: "text-center d-flex justify-content-center align-items-center h-100 text-decoration-none" do %>
+        <span class="fw-semibold text-dark">CrewCert</span>
+      <% end %>
+    </div>
+
+    <nav class="flex-fill p-3">
+      <div class="d-flex flex-column gap-2">
+        <%= link_to super_admin_root_path, class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "home"}" do %>
+          <i class="fa-solid fa-home fs-5"></i>
+          <span class="fw-medium">Dashboard</span>
+        <% end %>
+
+        <hr class="my-2">
+
+        <%= link_to super_admin_admins_path, class: "btn btn-ghost d-flex align-items-center gap-2 text-start rounded-3 py-2 px-3 #{"active" if controller_name == "admins"}" do %>
+          <i class="fa-solid fa-user-shield fs-5"></i>
+          <span class="fw-medium">Administrators</span>
+        <% end %>
+      </div>
+    </nav>
+
+    <div class="mt-auto p-3 border-top">
+      <div class="d-flex align-items-center gap-3 p-3 rounded-3 bg-light mb-3">
+        <div class="flex-fill text-truncate">
+          <div class="fw-medium text-dark small text-truncate"><%= current_super_admin&.email %></div>
+          <div class="text-muted" style="font-size: 0.75rem;">Super Admin</div>
+        </div>
+      </div>
+
+      <%= button_to destroy_super_admin_session_path, method: :delete,
+                    class: "btn btn-outline-danger btn-sm w-100 d-flex align-items-center justify-content-center gap-2 text-center",
+                    data: { turbo_confirm: "Are you sure you want to sign out?" } do %>
+        <i class="fa-solid fa-sign-out-alt"></i>
+        <span>Sign Out</span>
+      <% end %>
+    </div>
+  </div>
+</div>

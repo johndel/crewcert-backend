@@ -1,0 +1,241 @@
+.w-sidebar {
+  width: $sidebar-width;
+}
+
+.h-header {
+  height: $header-height;
+}
+
+.max-h-header {
+  max-height: $header-height
+}
+
+.max-w-sidebar {
+  max-width: $sidebar-width;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.sidebar-desktop {
+  width: $sidebar-width;
+  min-height: 100vh;
+  background-color: white !important;
+}
+
+.sidebar-shadow {
+  box-shadow: 2px 0 8px 0 rgba(0, 0, 0, 0.1) !important;
+  border: none !important;
+}
+
+.main-content {
+  @media (min-width: map-get($grid-breakpoints, xl)) {
+    margin-left: $sidebar-width;
+  }
+}
+
+.list-group-item {
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  &.active {
+    background-color: $primary !important;
+    border-color: $primary !important;
+  }
+}
+
+.avatar {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: $font-weight-medium;
+  font-size: 0.875rem;
+  aspect-ratio: 1/1;
+
+  &.avatar-sm {
+    font-size: 0.75rem;
+  }
+}
+
+.fw-medium {
+  font-weight: $font-weight-medium !important;
+}
+
+.shadow-subtle {
+  box-shadow: $box-shadow-sm !important;
+}
+
+.shadow-bottom {
+  box-shadow: 0 6px 6px -4px rgba(0, 0, 0, 0.1) !important;
+}
+
+// Colors
+
+.bg-gradient {
+  background: linear-gradient(135deg, $primary 0%, lighten($primary, 10%) 100%);
+}
+
+.bg-blue {
+  background: $blue-400;
+}
+
+.text-blue {
+  color: $blue-600;
+}
+
+.bg-blue-subtle {
+  background: $blue-100;
+}
+
+.bg-pink {
+  background: $pink-400;
+}
+
+.text-pink {
+  color: $pink-500;
+}
+
+.bg-pink-subtle {
+  background: $pink-100;
+}
+
+.btn-primary, .btn-danger {
+  color: $white;
+
+  &:hover, &:active, &:focus {
+    color: $white !important;
+  }
+}
+
+.btn-outline-primary, .btn-outline-danger {
+  &:hover, &:active {
+    color: $white !important;
+  }
+
+  &:focus:not(:hover) {
+    color: $primary !important;
+    border-color: $primary !important;
+    background-color: transparent !important;
+  }
+}
+
+.btn-ghost {
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+  }
+
+  &.active {
+    background-color: rgba($primary, 0.1) !important;
+    color: $primary !important;
+    border: 1px solid rgba($primary, 0.2) !important;
+  }
+}
+
+.table {
+  tbody td {
+    vertical-align: middle;
+  }
+
+  tbody tr {
+    &:last-child td {
+      border-bottom: none;
+    }
+  }
+
+  thead th, thead td {
+    font-weight: 500;
+    color: $gray-500;
+    background: $light;
+    border-bottom: none;
+
+    &:first-child {
+      border-radius: $border-radius 0 0 $border-radius;
+    }
+
+    &:last-child {
+      border-radius: 0 $border-radius $border-radius 0;
+    }
+  }
+}
+
+.card {
+  .card-header {
+    padding-top: 18px;
+    background-color: $card-bg;
+  }
+
+  .card-footer {
+    background-color: $card-bg;
+    padding-bottom: 18px;
+  }
+}
+
+.pagy-bootstrap.nav {
+  .page-item {
+    &.prev, &.next {
+      display: none;
+    }
+
+    .page-link {
+      border-radius: $border-radius;
+      margin: 0 .1rem;
+      min-width: 2.2rem;
+      padding-left: 0;
+      padding-right: 0;
+      text-align: center;
+      white-space: nowrap;
+    }
+  }
+}
+
+.image-upload-preview-container:has(> .focused) {
+  border-color: $input-focus-border-color;
+  border-radius: $input-border-radius;
+  box-shadow: $input-focus-box-shadow;
+}
+
+.field_with_errors .form-control, .field_with_errors .form-select {
+  background-color: $danger-light !important;
+  border-color: $danger-bg-subtle !important;
+}
+
+.required::after {
+  content: " *";
+  color: $danger;
+  font-weight: bold;
+}
+
+.fs-12px {
+  font-size: 12px;
+}
+
+.file-thumbnail {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+  border-radius: $border-radius;
+}
+
+@media screen and (min-width: map-get($grid-breakpoints, xl)) {
+  .border-xl-end {
+    border-right: $border-width $border-style $border-color;
+  }
+}
+
+.hover-shadow-lg {
+  transition: 200ms;
+
+  &:hover {
+    box-shadow: $box-shadow-lg !important;
+  }
+}
