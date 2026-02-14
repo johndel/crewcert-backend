@@ -2,7 +2,7 @@
 
 module Admin
   class RolesController < BaseController
-    before_action :set_role, only: [:show, :edit, :update, :destroy]
+    before_action :set_role, only: [ :show, :edit, :update, :destroy ]
 
     def index
       @q = Role.ransack(params[:q])

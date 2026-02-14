@@ -7,7 +7,7 @@ RSpec.describe MatrixRequirement, type: :model do
 
     context 'uniqueness' do
       subject { create(:matrix_requirement) }
-      it { should validate_uniqueness_of(:certificate_type_id).scoped_to([:vessel_id, :role_id]) }
+      it { should validate_uniqueness_of(:certificate_type_id).scoped_to([ :vessel_id, :role_id ]) }
     end
   end
 

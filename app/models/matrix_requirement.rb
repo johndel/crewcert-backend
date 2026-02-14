@@ -6,16 +6,16 @@ class MatrixRequirement < ApplicationRecord
   belongs_to :certificate_type
 
   validates :requirement_level, presence: true, inclusion: { in: REQUIREMENT_LEVELS }
-  validates :certificate_type_id, uniqueness: { scope: [:vessel_id, :role_id] }
+  validates :certificate_type_id, uniqueness: { scope: [ :vessel_id, :role_id ] }
 
-  scope :mandatory, -> { where(requirement_level: 'M') }
-  scope :optional, -> { where(requirement_level: 'O') }
+  scope :mandatory, -> { where(requirement_level: "M") }
+  scope :optional, -> { where(requirement_level: "O") }
 
   def mandatory?
-    requirement_level == 'M'
+    requirement_level == "M"
   end
 
   def optional?
-    requirement_level == 'O'
+    requirement_level == "O"
   end
 end

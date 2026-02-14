@@ -1,9 +1,9 @@
 module ApplicationHelper
   # Pagy 43+ uses series_nav with style argument for Bootstrap
   def pagy_bootstrap_nav(pagy)
-    return '' if pagy.pages <= 1
+    return "" if pagy.pages <= 1
 
-    pagy.series_nav(:bootstrap, classes: 'pagination mb-0').html_safe
+    pagy.series_nav(:bootstrap, classes: "pagination mb-0").html_safe
   end
 
   def evaluate_page_title(fallback: "CrewCert")

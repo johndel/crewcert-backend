@@ -2,8 +2,8 @@ module SuperAdmins
   class MagicLinksController < ApplicationController
     layout "super_admin_auth"
 
-    before_action :require_not_authenticated_super_admin!, only: [:create, :new]
-    rate_limit to: 20, within: 3.minutes, only: [:create]
+    before_action :require_not_authenticated_super_admin!, only: [ :create, :new ]
+    rate_limit to: 20, within: 3.minutes, only: [ :create ]
 
     def new
     end

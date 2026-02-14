@@ -52,7 +52,7 @@ RSpec.describe CrewMember, type: :model do
     it '.ordered orders by last_name and first_name' do
       b = create(:crew_member, first_name: 'Alice', last_name: 'Zulu')
       a = create(:crew_member, first_name: 'Bob', last_name: 'Alpha')
-      expect(CrewMember.ordered).to eq([a, b])
+      expect(CrewMember.ordered).to eq([ a, b ])
     end
   end
 end

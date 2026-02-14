@@ -203,13 +203,13 @@ DECK_CADET = "Deck Cadet"
 ENG_CADET = "Engine Cadet"
 
 # All deck officers
-DECK_OFFICERS = [MASTER, CHIEF_OFF, SECOND_OFF, THIRD_OFF, APP_OFF].freeze
+DECK_OFFICERS = [ MASTER, CHIEF_OFF, SECOND_OFF, THIRD_OFF, APP_OFF ].freeze
 # All engine officers
-ENGINE_OFFICERS = [CHIEF_ENG, SECOND_ENG, THIRD_ENG, FOURTH_ENG, APP_ENG].freeze
+ENGINE_OFFICERS = [ CHIEF_ENG, SECOND_ENG, THIRD_ENG, FOURTH_ENG, APP_ENG ].freeze
 # All officers
 ALL_OFFICERS = DECK_OFFICERS + ENGINE_OFFICERS
 # All ratings
-ALL_RATINGS = [AB, ORD_SEAMAN, FITTER, OILER, WIPER, ELEC_ENG, ELEC, APP_ELEC, BOSUN, COOK, MESSMAN, MESSBOY, DECK_CADET, ENG_CADET].freeze
+ALL_RATINGS = [ AB, ORD_SEAMAN, FITTER, OILER, WIPER, ELEC_ENG, ELEC, APP_ELEC, BOSUN, COOK, MESSMAN, MESSBOY, DECK_CADET, ENG_CADET ].freeze
 # All roles
 ALL_ROLES = ALL_OFFICERS + ALL_RATINGS
 
@@ -218,94 +218,94 @@ ALL_ROLES = ALL_OFFICERS + ALL_RATINGS
 TRAINING_MATRIX = {
   # Common Training - Page 1
   "1001" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", APP_ENG => "M" },
-  "1002" => ALL_RATINGS.to_h { |r| [r, "M"] },
+  "1002" => ALL_RATINGS.to_h { |r| [ r, "M" ] },
   "1003" => { MASTER => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", APP_ENG => "M" },
-  "1004" => ALL_ROLES.to_h { |r| [r, "M"] }.merge({ APP_ELEC => "O", COOK => "O" }),
+  "1004" => ALL_ROLES.to_h { |r| [ r, "M" ] }.merge({ APP_ELEC => "O", COOK => "O" }),
   "1005" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M" },
   "1006" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "O", SECOND_ENG => "O", THIRD_ENG => "O", FOURTH_ENG => "O", APP_ENG => "O", AB => "M", ORD_SEAMAN => "M", FITTER => "O", OILER => "O", WIPER => "O", ELEC_ENG => "O", ELEC => "O", APP_ELEC => "O", BOSUN => "M", COOK => "O", MESSMAN => "O", MESSBOY => "O", DECK_CADET => "M", ENG_CADET => "O" },
   "1007" => { MASTER => "M", CHIEF_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", ELEC_ENG => "M", ELEC => "M", BOSUN => "M" },
   "1010" => { BOSUN => "M", COOK => "M", MESSMAN => "M" },
-  "1018" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "1021" => ALL_RATINGS.to_h { |r| [r, "M"] },
-  "1022" => ALL_OFFICERS.to_h { |r| [r, "M"] },
-  "1023" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "1024" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "1025" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "1026" => ALL_ROLES.to_h { |r| [r, "O"] }.merge(DECK_OFFICERS.to_h { |r| [r, "M"] }),
-  "1027" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "1028" => ALL_ROLES.to_h { |r| [r, "M"] },
+  "1018" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "1021" => ALL_RATINGS.to_h { |r| [ r, "M" ] },
+  "1022" => ALL_OFFICERS.to_h { |r| [ r, "M" ] },
+  "1023" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "1024" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "1025" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "1026" => ALL_ROLES.to_h { |r| [ r, "O" ] }.merge(DECK_OFFICERS.to_h { |r| [ r, "M" ] }),
+  "1027" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "1028" => ALL_ROLES.to_h { |r| [ r, "M" ] },
   "1029" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", BOSUN => "M" },
   "1030" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", BOSUN => "M" },
   "1031" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", APP_ENG => "M" },
-  "1032" => ALL_RATINGS.to_h { |r| [r, "M"] },
-  "1033" => ALL_ROLES.to_h { |r| [r, "M"] },
+  "1032" => ALL_RATINGS.to_h { |r| [ r, "M" ] },
+  "1033" => ALL_ROLES.to_h { |r| [ r, "M" ] },
   "1034" => { MASTER => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", OILER => "M", FITTER => "M", WIPER => "M", ENG_CADET => "M" },
   "1035" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", AB => "M", ORD_SEAMAN => "M", FITTER => "M", OILER => "M", WIPER => "M", BOSUN => "M", DECK_CADET => "M", ENG_CADET => "M" },
-  "1043" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "1044" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "1045" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "1046" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "1047" => (ALL_RATINGS - [DECK_CADET, ENG_CADET]).to_h { |r| [r, "M"] }.merge({ CHIEF_ENG => "M" }),
+  "1043" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "1044" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "1045" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "1046" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "1047" => (ALL_RATINGS - [ DECK_CADET, ENG_CADET ]).to_h { |r| [ r, "M" ] }.merge({ CHIEF_ENG => "M" }),
   "1048" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "O", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", APP_ENG => "O" },
   "1049" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", ELEC_ENG => "M", DECK_CADET => "M" },
 
   # Page 2
-  "1051" => DECK_OFFICERS.to_h { |r| [r, "M"] }.merge({ DECK_CADET => "M" }),
+  "1051" => DECK_OFFICERS.to_h { |r| [ r, "M" ] }.merge({ DECK_CADET => "M" }),
   "1059" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", DECK_CADET => "M" },
   "1060" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", AB => "M", ORD_SEAMAN => "M", BOSUN => "M", DECK_CADET => "M" },
   "1062" => { MASTER => "O", CHIEF_OFF => "O", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M" },
-  "1063" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "1064" => ALL_ROLES.to_h { |r| [r, "M"] },
+  "1063" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "1064" => ALL_ROLES.to_h { |r| [ r, "M" ] },
   "1065" => { COOK => "M", MESSMAN => "M", MESSBOY => "M" },
-  "1067" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "1080" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "1087" => ALL_ROLES.to_h { |r| [r, "M"] },
+  "1067" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "1080" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "1087" => ALL_ROLES.to_h { |r| [ r, "M" ] },
 
   # Wet/Technical
-  "2005" => DECK_OFFICERS.to_h { |r| [r, "M"] }.merge({ AB => "M", ORD_SEAMAN => "M", BOSUN => "M", DECK_CADET => "M" }),
+  "2005" => DECK_OFFICERS.to_h { |r| [ r, "M" ] }.merge({ AB => "M", ORD_SEAMAN => "M", BOSUN => "M", DECK_CADET => "M" }),
   "4003" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", ELEC_ENG => "M", ELEC => "M", ENG_CADET => "O" },
-  "4005" => ENGINE_OFFICERS.to_h { |r| [r, "M"] }.merge({ ELEC_ENG => "M", ELEC => "M" }),
-  "4016" => ALL_ROLES.to_h { |r| [r, "O"] }.merge(ALL_OFFICERS.to_h { |r| [r, "M"] }),
-  "4017" => ALL_ROLES.to_h { |r| [r, "O"] }.merge(ALL_OFFICERS.to_h { |r| [r, "M"] }),
-  "4018" => ALL_ROLES.to_h { |r| [r, "O"] }.merge(ALL_OFFICERS.to_h { |r| [r, "M"] }).merge({ APP_OFF => "M", APP_ENG => "O" }),
-  "4019" => ALL_ROLES.to_h { |r| [r, "O"] }.merge(ALL_OFFICERS.to_h { |r| [r, "M"] }),
-  "4020" => ALL_ROLES.to_h { |r| [r, "O"] }.merge(ALL_OFFICERS.to_h { |r| [r, "M"] }),
+  "4005" => ENGINE_OFFICERS.to_h { |r| [ r, "M" ] }.merge({ ELEC_ENG => "M", ELEC => "M" }),
+  "4016" => ALL_ROLES.to_h { |r| [ r, "O" ] }.merge(ALL_OFFICERS.to_h { |r| [ r, "M" ] }),
+  "4017" => ALL_ROLES.to_h { |r| [ r, "O" ] }.merge(ALL_OFFICERS.to_h { |r| [ r, "M" ] }),
+  "4018" => ALL_ROLES.to_h { |r| [ r, "O" ] }.merge(ALL_OFFICERS.to_h { |r| [ r, "M" ] }).merge({ APP_OFF => "M", APP_ENG => "O" }),
+  "4019" => ALL_ROLES.to_h { |r| [ r, "O" ] }.merge(ALL_OFFICERS.to_h { |r| [ r, "M" ] }),
+  "4020" => ALL_ROLES.to_h { |r| [ r, "O" ] }.merge(ALL_OFFICERS.to_h { |r| [ r, "M" ] }),
 
   # Lessons Learnt
-  "5001" => DECK_OFFICERS.to_h { |r| [r, "M"] },
-  "5002" => DECK_OFFICERS.to_h { |r| [r, "M"] },
-  "5003" => DECK_OFFICERS.to_h { |r| [r, "M"] },
+  "5001" => DECK_OFFICERS.to_h { |r| [ r, "M" ] },
+  "5002" => DECK_OFFICERS.to_h { |r| [ r, "M" ] },
+  "5003" => DECK_OFFICERS.to_h { |r| [ r, "M" ] },
   "5004" => { BOSUN => "M", COOK => "M", MESSMAN => "M" },
-  "5005" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "5006" => DECK_OFFICERS.to_h { |r| [r, "M"] }.except(APP_OFF),
-  "5007" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "5008" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "5009" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "5010" => ALL_ROLES.to_h { |r| [r, "M"] },
+  "5005" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "5006" => DECK_OFFICERS.to_h { |r| [ r, "M" ] }.except(APP_OFF),
+  "5007" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "5008" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "5009" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "5010" => ALL_ROLES.to_h { |r| [ r, "M" ] },
   "5011" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "O", FOURTH_ENG => "O", APP_ENG => "O", AB => "M", ORD_SEAMAN => "O", BOSUN => "M", DECK_CADET => "M" },
 
   # Resilience Modules
-  "6001" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "6002" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "6003" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "6004" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "6005" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "6006" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "6007" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "6008" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "6009" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "6010" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "6011" => ALL_ROLES.to_h { |r| [r, "M"] },
+  "6001" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "6002" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "6003" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "6004" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "6005" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "6006" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "6007" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "6008" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "6009" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "6010" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "6011" => ALL_ROLES.to_h { |r| [ r, "M" ] },
 
   # VR Training
-  "8001" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "8002" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "8004" => ALL_ROLES.to_h { |r| [r, "M"] },
+  "8001" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "8002" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "8004" => ALL_ROLES.to_h { |r| [ r, "M" ] },
 
   # Let's Talk
-  "9001" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "9002" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "9003" => ALL_ROLES.to_h { |r| [r, "M"] }
+  "9001" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "9002" => ALL_ROLES.to_h { |r| [ r, "M" ] },
+  "9003" => ALL_ROLES.to_h { |r| [ r, "M" ] }
 }.freeze
 
 # =============================================================================

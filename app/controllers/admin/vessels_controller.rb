@@ -2,7 +2,7 @@
 
 module Admin
   class VesselsController < BaseController
-    before_action :set_vessel, only: [:show, :edit, :update, :destroy, :request_all_certificates, :readiness]
+    before_action :set_vessel, only: [ :show, :edit, :update, :destroy, :request_all_certificates, :readiness ]
 
     def index
       @q = Vessel.ransack(params[:q])
@@ -103,7 +103,7 @@ module Admin
 
     def certificate_status(cert, req)
       return :missing unless cert
-      return :rejected if cert.status == 'rejected'
+      return :rejected if cert.status == "rejected"
       return :pending if cert.status.in?(%w[pending processing])
       return :expired if cert.expired?
       return :expiring_soon if cert.expiring_soon?

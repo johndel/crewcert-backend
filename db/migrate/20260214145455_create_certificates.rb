@@ -13,7 +13,7 @@ class CreateCertificates < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :certificates, [:crew_member_id, :certificate_type_id]
+    add_index :certificates, [ :crew_member_id, :certificate_type_id ]
     add_index :certificates, :status
     add_index :certificates, :expiry_date
   end

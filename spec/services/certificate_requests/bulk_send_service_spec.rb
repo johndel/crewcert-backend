@@ -37,7 +37,7 @@ RSpec.describe CertificateRequests::BulkSendService do
 
     context 'with specific crew member ids' do
       it 'only sends to specified crew members' do
-        result = described_class.call(vessel: vessel, crew_member_ids: [crew_member1.id])
+        result = described_class.call(vessel: vessel, crew_member_ids: [ crew_member1.id ])
         expect(result.data[:sent]).to eq(1)
       end
     end

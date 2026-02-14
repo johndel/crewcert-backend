@@ -9,6 +9,6 @@ class CreateMatrixRequirements < ActiveRecord::Migration[8.1]
       t.timestamps
     end
 
-    add_index :matrix_requirements, [:vessel_id, :role_id, :certificate_type_id], unique: true, name: 'idx_matrix_requirements_unique'
+    add_index :matrix_requirements, [ :vessel_id, :role_id, :certificate_type_id ], unique: true, name: 'idx_matrix_requirements_unique'
   end
 end

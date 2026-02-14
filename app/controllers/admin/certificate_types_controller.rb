@@ -2,7 +2,7 @@
 
 module Admin
   class CertificateTypesController < BaseController
-    before_action :set_certificate_type, only: [:show, :edit, :update, :destroy]
+    before_action :set_certificate_type, only: [ :show, :edit, :update, :destroy ]
 
     def index
       @q = CertificateType.ransack(params[:q])

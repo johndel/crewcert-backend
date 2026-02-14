@@ -77,7 +77,7 @@ class UploadsController < ApplicationController
 
   def check_request_valid
     return render("expired", status: :gone) if @certificate_request.expired?
-    return render("already_submitted") if @certificate_request.status == "submitted"
+    render("already_submitted") if @certificate_request.status == "submitted"
   end
 
   def set_crew_member

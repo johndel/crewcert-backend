@@ -20,7 +20,7 @@ gem "jbuilder", "~> 2.14.1"
 gem "cssbundling-rails", "~> 1.4.3"
 
 # Add env variables in .env
-gem "dotenv-rails", "~> 3.2.0", groups: [:development, :test]
+gem "dotenv-rails", "~> 3.2.0", groups: [ :development, :test ]
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", "~> 1.2024", platforms: %i[ windows jruby ]

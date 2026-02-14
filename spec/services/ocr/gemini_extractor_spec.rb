@@ -89,13 +89,13 @@ RSpec.describe Ocr::GeminiExtractor do
       context "with successful API response" do
         let(:api_response) do
           {
-            "candidates" => [{
+            "candidates" => [ {
               "content" => {
-                "parts" => [{
+                "parts" => [ {
                   "text" => '{"certificate_number": "CERT-123", "issue_date": "2024-01-15", "expiry_date": "2029-01-15", "holder_name": "John Doe", "issuing_authority": "Maritime Authority", "certificate_type": "STCW", "confidence": 0.95, "raw_text": "Sample certificate"}'
-                }]
+                } ]
               }
-            }]
+            } ]
           }
         end
 
@@ -147,13 +147,13 @@ RSpec.describe Ocr::GeminiExtractor do
       context "with low confidence response" do
         let(:api_response) do
           {
-            "candidates" => [{
+            "candidates" => [ {
               "content" => {
-                "parts" => [{
+                "parts" => [ {
                   "text" => '{"certificate_number": null, "confidence": 0.1, "raw_text": "Could not read document"}'
-                }]
+                } ]
               }
-            }]
+            } ]
           }
         end
 
@@ -170,13 +170,13 @@ RSpec.describe Ocr::GeminiExtractor do
       context "with markdown-wrapped JSON response" do
         let(:api_response) do
           {
-            "candidates" => [{
+            "candidates" => [ {
               "content" => {
-                "parts" => [{
+                "parts" => [ {
                   "text" => "```json\n{\"certificate_number\": \"CERT-456\", \"confidence\": 0.9}\n```"
-                }]
+                } ]
               }
-            }]
+            } ]
           }
         end
 
@@ -193,13 +193,13 @@ RSpec.describe Ocr::GeminiExtractor do
       context "when API returns invalid JSON" do
         let(:api_response) do
           {
-            "candidates" => [{
+            "candidates" => [ {
               "content" => {
-                "parts" => [{
+                "parts" => [ {
                   "text" => "This is not valid JSON"
-                }]
+                } ]
               }
-            }]
+            } ]
           }
         end
 
@@ -217,13 +217,13 @@ RSpec.describe Ocr::GeminiExtractor do
       context "when API returns empty response" do
         let(:api_response) do
           {
-            "candidates" => [{
+            "candidates" => [ {
               "content" => {
-                "parts" => [{
+                "parts" => [ {
                   "text" => ""
-                }]
+                } ]
               }
-            }]
+            } ]
           }
         end
 
@@ -262,13 +262,13 @@ RSpec.describe Ocr::GeminiExtractor do
       let(:mock_client) { double("Gemini::Client") }
       let(:api_response) do
         {
-          "candidates" => [{
+          "candidates" => [ {
             "content" => {
-              "parts" => [{
+              "parts" => [ {
                 "text" => '{"certificate_number": "IMG-789", "confidence": 0.85}'
-              }]
+              } ]
             }
-          }]
+          } ]
         }
       end
 
@@ -296,13 +296,13 @@ RSpec.describe Ocr::GeminiExtractor do
     context "with invalid date format" do
       let(:api_response) do
         {
-          "candidates" => [{
+          "candidates" => [ {
             "content" => {
-              "parts" => [{
+              "parts" => [ {
                 "text" => '{"issue_date": "invalid-date", "confidence": 0.9}'
-              }]
+              } ]
             }
-          }]
+          } ]
         }
       end
 
@@ -319,13 +319,13 @@ RSpec.describe Ocr::GeminiExtractor do
     context "with null date" do
       let(:api_response) do
         {
-          "candidates" => [{
+          "candidates" => [ {
             "content" => {
-              "parts" => [{
+              "parts" => [ {
                 "text" => '{"issue_date": null, "confidence": 0.9}'
-              }]
+              } ]
             }
-          }]
+          } ]
         }
       end
 

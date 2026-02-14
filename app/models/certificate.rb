@@ -14,7 +14,7 @@ class Certificate < ApplicationRecord
 
   belongs_to :crew_member
   belongs_to :certificate_type
-  belongs_to :verified_by, class_name: 'User', optional: true
+  belongs_to :verified_by, class_name: "User", optional: true
   has_one_attached :document
 
   validates :status, presence: true, inclusion: { in: STATUSES }
@@ -27,14 +27,14 @@ class Certificate < ApplicationRecord
   after_commit :enqueue_extraction, if: :should_extract?
   after_save :clear_crew_member_cache
 
-  scope :pending, -> { where(status: 'pending') }
-  scope :processing, -> { where(status: 'processing') }
-  scope :verified, -> { where(status: 'verified') }
-  scope :rejected, -> { where(status: 'rejected') }
+  scope :pending, -> { where(status: "pending") }
+  scope :processing, -> { where(status: "processing") }
+  scope :verified, -> { where(status: "verified") }
+  scope :rejected, -> { where(status: "rejected") }
   scope :pending_review, -> { where(status: %w[pending processing]) }
   scope :expiring_soon, -> { verified.where(expiry_date: Date.current..30.days.from_now) }
-  scope :expired, -> { verified.where('expiry_date < ?', Date.current) }
-  scope :valid_now, -> { verified.where('expiry_date IS NULL OR expiry_date >= ?', Date.current) }
+  scope :expired, -> { verified.where("expiry_date < ?", Date.current) }
+  scope :valid_now, -> { verified.where("expiry_date IS NULL OR expiry_date >= ?", Date.current) }
   scope :recent, -> { order(created_at: :desc) }
   scope :by_crew_member, ->(crew_member) { where(crew_member: crew_member) }
   scope :by_certificate_type, ->(certificate_type) { where(certificate_type: certificate_type) }
@@ -43,7 +43,7 @@ class Certificate < ApplicationRecord
   def verify!(user)
     transaction do
       update!(
-        status: 'verified',
+        status: "verified",
         verified_at: Time.current,
         verified_by: user
       )
@@ -53,7 +53,7 @@ class Certificate < ApplicationRecord
   def reject!(user, reason: nil)
     transaction do
       update!(
-        status: 'rejected',
+        status: "rejected",
         verified_at: Time.current,
         verified_by: user,
         rejection_reason: reason
@@ -75,7 +75,7 @@ class Certificate < ApplicationRecord
   end
 
   def valid_certificate?
-    status == 'verified' && !expired?
+    status == "verified" && !expired?
   end
 
   def can_verify?
@@ -89,11 +89,11 @@ class Certificate < ApplicationRecord
   # Status badge class for views
   def status_badge_class
     case status
-    when 'pending' then 'bg-warning'
-    when 'processing' then 'bg-info'
-    when 'verified' then expired? ? 'bg-secondary' : 'bg-success'
-    when 'rejected' then 'bg-danger'
-    else 'bg-secondary'
+    when "pending" then "bg-warning"
+    when "processing" then "bg-info"
+    when "verified" then expired? ? "bg-secondary" : "bg-success"
+    when "rejected" then "bg-danger"
+    else "bg-secondary"
     end
   end
 
@@ -113,7 +113,7 @@ class Certificate < ApplicationRecord
 
   def should_extract?
     return false if Rails.env.test?
-    document.attached? && status == 'pending' && !extracted_data&.dig('extraction_method')
+    document.attached? && status == "pending" && !extracted_data&.dig("extraction_method")
   end
 
   def enqueue_extraction

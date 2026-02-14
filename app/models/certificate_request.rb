@@ -10,18 +10,18 @@ class CertificateRequest < ApplicationRecord
   before_validation :generate_token, on: :create
   before_validation :set_expiry, on: :create
 
-  scope :pending, -> { where(status: 'pending') }
-  scope :sent, -> { where(status: 'sent') }
-  scope :submitted, -> { where(status: 'submitted') }
-  scope :active, -> { where('expires_at > ?', Time.current).where(status: %w[pending sent]) }
+  scope :pending, -> { where(status: "pending") }
+  scope :sent, -> { where(status: "sent") }
+  scope :submitted, -> { where(status: "submitted") }
+  scope :active, -> { where("expires_at > ?", Time.current).where(status: %w[pending sent]) }
 
   def send_request!
-    update!(status: 'sent', sent_at: Time.current)
+    update!(status: "sent", sent_at: Time.current)
     CertificateRequestMailer.request_certificates(self).deliver_later
   end
 
   def submit!
-    update!(status: 'submitted', submitted_at: Time.current)
+    update!(status: "submitted", submitted_at: Time.current)
   end
 
   def expired?

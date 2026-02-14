@@ -12,7 +12,7 @@ RSpec.describe CertificateRequestMailer, type: :mailer do
     let(:mail) { described_class.request_certificates(certificate_request) }
 
     it "sends to the crew member's email" do
-      expect(mail.to).to eq(["sailor@example.com"])
+      expect(mail.to).to eq([ "sailor@example.com" ])
     end
 
     it "includes the vessel name in the subject" do

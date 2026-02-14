@@ -2,7 +2,7 @@
 
 module Admin
   class CrewMembersController < BaseController
-    before_action :set_crew_member, only: [:show, :edit, :update, :destroy, :send_certificate_request]
+    before_action :set_crew_member, only: [ :show, :edit, :update, :destroy, :send_certificate_request ]
 
     def index
       @q = CrewMember.includes(:vessel, :role).ransack(params[:q])

@@ -2,8 +2,8 @@
 
 module Admin
   class MatrixController < BaseController
-    before_action :set_vessel, only: [:index, :update_requirement]
-    before_action :set_roles_and_certificate_types, only: [:index]
+    before_action :set_vessel, only: [ :index, :update_requirement ]
+    before_action :set_roles_and_certificate_types, only: [ :index ]
 
     def index
       @matrix = build_matrix
@@ -65,11 +65,11 @@ module Admin
 
     def build_matrix
       # Pre-load all requirements for this vessel
-      requirements = MatrixRequirement.where(vessel: @vessel).index_by { |r| [r.role_id, r.certificate_type_id] }
+      requirements = MatrixRequirement.where(vessel: @vessel).index_by { |r| [ r.role_id, r.certificate_type_id ] }
 
       @certificate_types.each_with_object({}) do |ct, matrix|
         matrix[ct.id] = @roles.each_with_object({}) do |role, row|
-          req = requirements[[role.id, ct.id]]
+          req = requirements[[ role.id, ct.id ]]
           row[role.id] = req&.requirement_level
         end
       end

@@ -1,18 +1,18 @@
 Rails.application.routes.draw do
   # Devise routes
-  devise_for :users, skip: [:registrations, :sessions, :passwords, :confirmations]
+  devise_for :users, skip: [ :registrations, :sessions, :passwords, :confirmations ]
   as :user do
     delete "/users/sign_out", to: "devise/sessions#destroy", as: :destroy_user_session
   end
 
-  devise_for :super_admins, skip: [:registrations, :sessions, :passwords, :confirmations]
+  devise_for :super_admins, skip: [ :registrations, :sessions, :passwords, :confirmations ]
   as :super_admin do
     delete "/super_admins/sign_out", to: "devise/sessions#destroy", as: :destroy_super_admin_session
   end
 
   # Super Admin namespace
   scope path: "super_admin", as: "super_admin", module: "super_admins" do
-    resources :magic_links, only: [:new, :create]
+    resources :magic_links, only: [ :new, :create ]
     get "magic_links/verify/:token", to: "magic_links#verify", as: :verify_magic_link
     get "admins", to: "admins#index", as: :admins
     root "home#index"
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
   # Admin namespace (regular users)
   scope path: "admin", as: "admin", module: "admin" do
-    resources :magic_links, only: [:new, :create]
+    resources :magic_links, only: [ :new, :create ]
     get "magic_links/verify/:token", to: "magic_links#verify", as: :verify_magic_link
 
     resources :vessels do
@@ -42,7 +42,7 @@ Rails.application.routes.draw do
         post :reject
       end
     end
-    resources :matrix, only: [:index] do
+    resources :matrix, only: [ :index ] do
       collection do
         patch :update_requirement
       end

@@ -2,12 +2,12 @@
 
 module Admin
   class CertificatesController < BaseController
-    before_action :set_certificate, only: [:show, :edit, :update, :destroy, :verify, :reject]
-    before_action :ensure_can_modify, only: [:verify, :reject]
+    before_action :set_certificate, only: [ :show, :edit, :update, :destroy, :verify, :reject ]
+    before_action :ensure_can_modify, only: [ :verify, :reject ]
 
     def index
       @q = base_scope.ransack(params[:q])
-      @q.sorts = 'created_at desc' if @q.sorts.empty?
+      @q.sorts = "created_at desc" if @q.sorts.empty?
 
       scope = apply_filters(@q.result)
       @pagy, @certificates = pagy(scope)
@@ -64,14 +64,14 @@ module Admin
     def verify
       @certificate.verify!(current_user)
       flash_success("Certificate verified successfully.")
-      redirect_back_or_to admin_certificates_path(filter: 'pending')
+      redirect_back_or_to admin_certificates_path(filter: "pending")
     end
 
     def reject
       reason = params[:rejection_reason]
       @certificate.reject!(current_user, reason: reason)
       flash_success("Certificate rejected.")
-      redirect_back_or_to admin_certificates_path(filter: 'pending')
+      redirect_back_or_to admin_certificates_path(filter: "pending")
     end
 
     private
@@ -82,11 +82,11 @@ module Admin
 
     def apply_filters(scope)
       case params[:filter]
-      when 'pending' then scope.pending_review
-      when 'verified' then scope.verified
-      when 'expiring' then scope.expiring_soon
-      when 'expired' then scope.expired
-      when 'rejected' then scope.rejected
+      when "pending" then scope.pending_review
+      when "verified" then scope.verified
+      when "expiring" then scope.expiring_soon
+      when "expired" then scope.expired
+      when "rejected" then scope.rejected
       else scope
       end
     end
@@ -112,6 +112,5 @@ module Admin
         :document
       )
     end
-
   end
 end

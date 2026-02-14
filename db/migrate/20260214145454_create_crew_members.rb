@@ -12,6 +12,6 @@ class CreateCrewMembers < ActiveRecord::Migration[8.1]
     end
 
     add_index :crew_members, :email
-    add_index :crew_members, [:vessel_id, :role_id]
+    add_index :crew_members, [ :vessel_id, :role_id ]
   end
 end
