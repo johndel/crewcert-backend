@@ -188,7 +188,7 @@ THIRD_ENG = "Third Engineer"
 FOURTH_ENG = "Fourth Engineer"
 APP_ENG = "Apprentice Engineer"
 AB = "AB (Able-Bodied) Seaman"
-OS = "Ordinary Seaman"
+ORD_SEAMAN = "Ordinary Seaman"
 FITTER = "Fitter"
 OILER = "Oiler"
 WIPER = "Wiper"
@@ -209,7 +209,7 @@ ENGINE_OFFICERS = [CHIEF_ENG, SECOND_ENG, THIRD_ENG, FOURTH_ENG, APP_ENG].freeze
 # All officers
 ALL_OFFICERS = DECK_OFFICERS + ENGINE_OFFICERS
 # All ratings
-ALL_RATINGS = [AB, OS, FITTER, OILER, WIPER, ELEC_ENG, ELEC, APP_ELEC, BOSUN, COOK, MESSMAN, MESSBOY, DECK_CADET, ENG_CADET].freeze
+ALL_RATINGS = [AB, ORD_SEAMAN, FITTER, OILER, WIPER, ELEC_ENG, ELEC, APP_ELEC, BOSUN, COOK, MESSMAN, MESSBOY, DECK_CADET, ENG_CADET].freeze
 # All roles
 ALL_ROLES = ALL_OFFICERS + ALL_RATINGS
 
@@ -222,7 +222,7 @@ TRAINING_MATRIX = {
   "1003" => { MASTER => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", APP_ENG => "M" },
   "1004" => ALL_ROLES.to_h { |r| [r, "M"] }.merge({ APP_ELEC => "O", COOK => "O" }),
   "1005" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M" },
-  "1006" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "O", SECOND_ENG => "O", THIRD_ENG => "O", FOURTH_ENG => "O", APP_ENG => "O", AB => "M", OS => "M", FITTER => "O", OILER => "O", WIPER => "O", ELEC_ENG => "O", ELEC => "O", APP_ELEC => "O", BOSUN => "M", COOK => "O", MESSMAN => "O", MESSBOY => "O", DECK_CADET => "M", ENG_CADET => "O" },
+  "1006" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "O", SECOND_ENG => "O", THIRD_ENG => "O", FOURTH_ENG => "O", APP_ENG => "O", AB => "M", ORD_SEAMAN => "M", FITTER => "O", OILER => "O", WIPER => "O", ELEC_ENG => "O", ELEC => "O", APP_ELEC => "O", BOSUN => "M", COOK => "O", MESSMAN => "O", MESSBOY => "O", DECK_CADET => "M", ENG_CADET => "O" },
   "1007" => { MASTER => "M", CHIEF_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", ELEC_ENG => "M", ELEC => "M", BOSUN => "M" },
   "1010" => { BOSUN => "M", COOK => "M", MESSMAN => "M" },
   "1018" => ALL_ROLES.to_h { |r| [r, "M"] },
@@ -240,7 +240,7 @@ TRAINING_MATRIX = {
   "1032" => ALL_RATINGS.to_h { |r| [r, "M"] },
   "1033" => ALL_ROLES.to_h { |r| [r, "M"] },
   "1034" => { MASTER => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", OILER => "M", FITTER => "M", WIPER => "M", ENG_CADET => "M" },
-  "1035" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", AB => "M", OS => "M", FITTER => "M", OILER => "M", WIPER => "M", BOSUN => "M", DECK_CADET => "M", ENG_CADET => "M" },
+  "1035" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", AB => "M", ORD_SEAMAN => "M", FITTER => "M", OILER => "M", WIPER => "M", BOSUN => "M", DECK_CADET => "M", ENG_CADET => "M" },
   "1043" => ALL_ROLES.to_h { |r| [r, "M"] },
   "1044" => ALL_ROLES.to_h { |r| [r, "M"] },
   "1045" => ALL_ROLES.to_h { |r| [r, "M"] },
@@ -252,7 +252,7 @@ TRAINING_MATRIX = {
   # Page 2
   "1051" => DECK_OFFICERS.to_h { |r| [r, "M"] }.merge({ DECK_CADET => "M" }),
   "1059" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", DECK_CADET => "M" },
-  "1060" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", AB => "M", OS => "M", BOSUN => "M", DECK_CADET => "M" },
+  "1060" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", AB => "M", ORD_SEAMAN => "M", BOSUN => "M", DECK_CADET => "M" },
   "1062" => { MASTER => "O", CHIEF_OFF => "O", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M" },
   "1063" => ALL_ROLES.to_h { |r| [r, "M"] },
   "1064" => ALL_ROLES.to_h { |r| [r, "M"] },
@@ -262,7 +262,7 @@ TRAINING_MATRIX = {
   "1087" => ALL_ROLES.to_h { |r| [r, "M"] },
 
   # Wet/Technical
-  "2005" => DECK_OFFICERS.to_h { |r| [r, "M"] }.merge({ AB => "M", OS => "M", BOSUN => "M", DECK_CADET => "M" }),
+  "2005" => DECK_OFFICERS.to_h { |r| [r, "M"] }.merge({ AB => "M", ORD_SEAMAN => "M", BOSUN => "M", DECK_CADET => "M" }),
   "4003" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "M", FOURTH_ENG => "M", ELEC_ENG => "M", ELEC => "M", ENG_CADET => "O" },
   "4005" => ENGINE_OFFICERS.to_h { |r| [r, "M"] }.merge({ ELEC_ENG => "M", ELEC => "M" }),
   "4016" => ALL_ROLES.to_h { |r| [r, "O"] }.merge(ALL_OFFICERS.to_h { |r| [r, "M"] }),
@@ -282,7 +282,7 @@ TRAINING_MATRIX = {
   "5008" => ALL_ROLES.to_h { |r| [r, "M"] },
   "5009" => ALL_ROLES.to_h { |r| [r, "M"] },
   "5010" => ALL_ROLES.to_h { |r| [r, "M"] },
-  "5011" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "O", FOURTH_ENG => "O", APP_ENG => "O", AB => "M", OS => "O", BOSUN => "M", DECK_CADET => "M" },
+  "5011" => { MASTER => "M", CHIEF_OFF => "M", SECOND_OFF => "M", THIRD_OFF => "M", APP_OFF => "M", CHIEF_ENG => "M", SECOND_ENG => "M", THIRD_ENG => "O", FOURTH_ENG => "O", APP_ENG => "O", AB => "M", ORD_SEAMAN => "O", BOSUN => "M", DECK_CADET => "M" },
 
   # Resilience Modules
   "6001" => ALL_ROLES.to_h { |r| [r, "M"] },
@@ -314,7 +314,7 @@ TRAINING_MATRIX = {
 puts "Creating sample vessel..."
 
 sample_vessel = Vessel.find_or_create_by!(name: "M/V Sample Vessel") do |v|
-  v.imo = "IMO1234567"
+  v.imo = "1234567"
   v.management_company = "CrewCert Maritime Ltd."
 end
 
