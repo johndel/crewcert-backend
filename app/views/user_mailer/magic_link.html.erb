@@ -1,11 +1,44 @@
-<h1>Sign in to CrewCert</h1>
+<!-- Magic Link Email Content -->
+<div style="text-align: center; margin-bottom: 20px;">
+  <div style="font-size: 20px; font-weight: bold; color: #2d3748; margin-bottom: 15px;">Login Link</div>
+</div>
 
-<p>Hi <%= @user.first_name %>,</p>
+<p style="font-size: 16px; color: #4a5568; text-align: center; margin-bottom: 25px;">
+  Hi <strong><%= @user.first_name %></strong>! You received this email because you requested to sign in to <strong>CrewCert</strong>.
+</p>
 
-<p>Click the link below to sign in to CrewCert:</p>
+<!-- Magic Link Button -->
+<table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="margin: 30px auto;">
+  <tr>
+    <td style="background-color: #1e3a8a; padding: 15px 30px; border-radius: 6px; text-align: center;">
+      <a href="<%= @magic_link_url %>" style="color: #ffffff; text-decoration: none; font-weight: bold; font-size: 16px; display: block;">
+        Sign in to CrewCert
+      </a>
+    </td>
+  </tr>
+</table>
 
-<p><%= link_to "Sign In", @magic_link_url %></p>
+<!-- Expiry Information -->
+<div style="background-color: #eff6ff; border-left: 4px solid #1e3a8a; padding: 15px; margin: 25px 0; border-radius: 4px;">
+  <strong style="color: #1e40af;">Important:</strong>
+  <span style="color: #1e40af; font-size: 14px;">The link you received is valid for <strong>1 hour</strong>.</span>
+</div>
 
-<p>This link will expire in 1 hour.</p>
+<!-- Security Note -->
+<div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 25px 0; border-radius: 4px;">
+  <strong style="color: #856404;">Security:</strong>
+  <ul style="margin: 10px 0; padding-left: 20px; color: #856404; font-size: 14px;">
+    <li>If you did not request this link, please ignore this email</li>
+    <li>Do not share this link with anyone</li>
+    <li>The link will automatically sign you in</li>
+  </ul>
+</div>
 
-<p>If you didn't request this link, you can safely ignore this email.</p>
+<!-- Alternative Link -->
+<p style="font-size: 14px; color: #4a5568; text-align: center; margin: 25px 0;">
+  If the button doesn't work, copy and paste this link:
+</p>
+
+<div style="background-color: #f8f9fa; padding: 10px; margin: 15px 0; border-radius: 4px; font-size: 12px; color: #495057; word-break: break-all; text-align: center;">
+  <%= @magic_link_url %>
+</div>

@@ -62,7 +62,8 @@ class CertificateExtractionJob < ApplicationJob
   end
 
   def gemini_configured?
-    Rails.application.credentials.dig(:google, :gemini_api_key).present?
+    Rails.application.credentials.gemini_api_key.present? ||
+      Rails.application.credentials.dig(:google, :gemini_api_key).present?
   end
 
   def mock_extraction_result

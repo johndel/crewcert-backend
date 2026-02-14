@@ -81,14 +81,34 @@
         </div>
         <div class="card-body">
           <dl class="mb-0">
+            <% if @certificate.extracted_data["holder_name"] %>
+              <dt class="text-muted small">Holder Name</dt>
+              <dd class="mb-2"><%= @certificate.extracted_data["holder_name"] %></dd>
+            <% end %>
+
             <% if @certificate.extracted_data["certificate_number"] %>
               <dt class="text-muted small">Certificate Number</dt>
               <dd class="mb-2"><%= @certificate.extracted_data["certificate_number"] %></dd>
             <% end %>
 
+            <% if @certificate.extracted_data["certificate_type"] %>
+              <dt class="text-muted small">Detected Type</dt>
+              <dd class="mb-2"><%= @certificate.extracted_data["certificate_type"] %></dd>
+            <% end %>
+
             <% if @certificate.extracted_data["issuing_authority"] %>
               <dt class="text-muted small">Issuing Authority</dt>
               <dd class="mb-2"><%= @certificate.extracted_data["issuing_authority"] %></dd>
+            <% end %>
+
+            <% if @certificate.extracted_data["issue_date"] %>
+              <dt class="text-muted small">Issue Date (detected)</dt>
+              <dd class="mb-2"><%= @certificate.extracted_data["issue_date"] %></dd>
+            <% end %>
+
+            <% if @certificate.extracted_data["expiry_date"] %>
+              <dt class="text-muted small">Expiry Date (detected)</dt>
+              <dd class="mb-2"><%= @certificate.extracted_data["expiry_date"] %></dd>
             <% end %>
 
             <% if @certificate.extracted_data["extraction_method"] %>
@@ -98,7 +118,17 @@
 
             <% if @certificate.extracted_data["error"] %>
               <dt class="text-muted small text-danger">Error</dt>
-              <dd class="mb-0 text-danger"><%= @certificate.extracted_data["error"] %></dd>
+              <dd class="mb-2 text-danger"><%= @certificate.extracted_data["error"] %></dd>
+            <% end %>
+
+            <% if @certificate.extracted_data["raw_text"].present? %>
+              <dt class="text-muted small">Extracted Text</dt>
+              <dd class="mb-0">
+                <details>
+                  <summary class="btn btn-sm btn-outline-secondary">Show raw text</summary>
+                  <pre class="mt-2 p-2 bg-light rounded small" style="max-height: 300px; overflow-y: auto; white-space: pre-wrap;"><%= @certificate.extracted_data["raw_text"] %></pre>
+                </details>
+              </dd>
             <% end %>
           </dl>
         </div>

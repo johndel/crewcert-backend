@@ -89,3 +89,4 @@ production:
   database: crewcert_production
   username: crewcert
   password: <%= ENV["CREWCERT_DATABASE_PASSWORD"] %>
+  host: <%= ENV.fetch("DATABASE_HOST", "localhost") %>

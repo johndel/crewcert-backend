@@ -2,7 +2,7 @@
 service: crewcert
 
 # Name of the container image.
-image: xeri/crewcert
+image: crewcert/crewcert
 
 # Deploy to these servers.
 servers:
@@ -17,9 +17,8 @@ proxy:
   ssl: false
   host: crewcert.xeri.eu
 
-# Where you keep your container images.
+# Where you keep your container images (Docker Hub).
 registry:
-  server: ghcr.io
   username:
     - KAMAL_REGISTRY_USERNAME
   password:
@@ -34,8 +33,11 @@ env:
     # GoodJob runs async inside Puma process
     GOOD_JOB_EXECUTION_MODE: async
 
+    # Database connection (host machine's PostgreSQL)
+    DATABASE_HOST: 172.17.0.1
+
     # Redis for caching and rate limiting
-    REDIS_URL: redis://localhost:6379/1
+    REDIS_URL: redis://172.17.0.1:6379/1
 
     # Application hostname
     APP_HOST: crewcert.xeri.eu
