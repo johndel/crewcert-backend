@@ -107,7 +107,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", "~> 1.1.0", require: false
 
   # RSpec testing framework
-  gem "rspec-rails", "~> 8.0.2"
+  gem "rspec-rails", "~> 8.0.3"
   gem "factory_bot_rails", "~> 6.5.1"
   gem "rubocop-rspec", "~> 3.9.0", require: false
 
