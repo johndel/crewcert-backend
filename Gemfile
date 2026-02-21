@@ -47,7 +47,7 @@ gem "thruster", "~> 0.1.17", require: false
 gem "image_processing", "~> 1.14.0"
 
 # Authentication
-gem "devise", "~> 5.0.0"
+gem "devise", "~> 5.0.2"
 
 # CORS for API
 gem "rack-cors", "~> 3.0.0"
