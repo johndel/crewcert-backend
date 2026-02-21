@@ -26,7 +26,7 @@ gem "dotenv-rails", "~> 3.2.0", groups: [ :development, :test ]
 gem "tzinfo-data", "~> 1.2024", platforms: %i[ windows jruby ]
 
 # Background job processing
-gem "good_job", "~> 4.13.1"
+gem "good_job", "~> 4.13.3"
 
 # Redis for caching and rate limiting in production
 gem "redis", "~> 5.4.0"
