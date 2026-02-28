@@ -53,8 +53,8 @@ gem "devise", "~> 5.0.0"
 gem "rack-cors", "~> 3.0.0"
 
 # Error monitoring
-gem "sentry-ruby", "~> 6.3.0"
-gem "sentry-rails", "~> 6.3.0"
+gem "sentry-ruby", "~> 6.4.0"
+gem "sentry-rails", "~> 6.4.0"
 
 # Pagination
 gem "pagy", "~> 43.2.2"
