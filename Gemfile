@@ -57,7 +57,7 @@ gem "sentry-ruby", "~> 6.3.0"
 gem "sentry-rails", "~> 6.3.0"
 
 # Pagination
-gem "pagy", "~> 43.2.2"
+gem "pagy", "~> 43.3.1"
 gem "simple_calendar", "~> 3.1.0"
 
 # AWS S3 for Cloudflare R2
